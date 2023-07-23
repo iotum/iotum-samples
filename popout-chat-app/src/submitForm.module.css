@@ -1,0 +1,86 @@
+/* Styling for the form wrapper */
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;    
+  }
+  
+  /* Styling for the form */
+  form {
+    background-color: #f1f1f1;
+    width: 50%;
+    margin: 0 auto; /* Center the form horizontally */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling for the labels */
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  /* Styling for the inputs */
+  input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Styling for the submit button */
+  button[type="submit"] {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+
+/* Styles for the chat container */
+.chatContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: auto; 
+}
+
+/* Style for the badge */
+.badge {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 75%; /* Adjust the font size of the badge */
+  position: absolute;
+  top: -15%;
+  right: -15%;
+}
+
+/* Update the button styles if needed */
+.biggerButton {
+  width: 100%;
+  height: 100%;
+  font-size: 100%;
+}
