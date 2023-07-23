@@ -1,7 +1,7 @@
 {
   "name": "popout-chat-app",
   "version": "0.1.0",
-  "homepage": "https://iotum.github.io/iotum-samples/popout-app",
+  "homepage": "https://iotum.github.io/iotum-samples/popout",
   "private": true,
   "dependencies": {
     "@iotum/callbridge-js": "^1.0.4",
