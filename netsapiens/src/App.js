@@ -1,117 +1,250 @@
+// import * as Callbridge from '@iotum/callbridge-js';
+// import React, { useState, useRef, useEffect } from 'react';
+// import styles from './submitForm.module.css';
+
+// function App() {
+//   const [token, setToken] = useState('');
+//   const [hostId, setHostId] = useState('');
+//   const [submitted, setSubmitted] = useState(false);
+//   const [activeTab, setActiveTab] = useState('chat');
+
+//   // Create a reference for the widget container
+//   const container = useRef(null);
+//   // Store a reference to the current widget instance
+//   const widgetRef = useRef(null);
+
+//   const handleTabChange = (tab) => {
+//     setActiveTab(tab);
+//   };
+
+//   const handleTokenChange = (event) => {
+//     setToken(event.target.value);
+//   };
+
+//   const handleHostIdChange = (event) => {
+//     setHostId(event.target.value);
+//   };
+
+//   const handleSubmit = () => {
+//     setSubmitted(true);
+//   };
+
+//   const destroyWidget = () => {
+//     if (widgetRef.current) {
+//       widgetRef.current.destroy();
+//       widgetRef.current = null;
+//     }
+//   };
+
+//   const renderWidget = () => {
+//     destroyWidget();
+//     switch (activeTab) {
+//       case 'chat':
+//         console.log("chat");
+//         new Callbridge.Dashboard(
+//           {
+//             domain: 'iotum.callbridge.rocks',
+//             sso: {
+//               token: '7c0d18cbd52f88f89446a9cfe59ee9901f2eaa2e40f7c3474b9ed5b34959d3c9',
+//               hostId: '62821',
+//             },
+//             container: container.current,
+//           },
+//           'Team',
+//           { layout: 'full' }
+//         );
+//         break;
+//       case 'meeting':
+//         console.log("meeting");
+//         new Callbridge.Meeting(
+//           {
+//             domain: 'iotum.callbridge.rocks',
+//             sso: {
+//               token: '7c0d18cbd52f88f89446a9cfe59ee9901f2eaa2e40f7c3474b9ed5b34959d3c9',
+//               hostId: '62821',
+//             },
+//             container: container.current,
+//           },
+//           'Team',
+//           { layout: 'full' }
+//         );
+//         break;
+//       default:
+//         return null;
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (submitted) {
+//       renderWidget();
+//     }
+
+//     // Cleanup function to remove the widget when the component unmounts
+//     return () => {
+//       destroyWidget();
+//     };
+
+//   }, [submitted, activeTab]);
+
+//   if (submitted) {
+//     return (
+//       <div className="app-container">
+//         <div className="tab-container">
+//           <button onClick={() => handleTabChange('chat')}>Chat</button>
+//           <button onClick={() => handleTabChange('meeting')}>Meeting</button>
+//           {/* Add more buttons for additional tabs */}
+//         </div>
+//         <div ref={container}></div>
+//       </div>
+//     );
+//   }
+
+//   if (!submitted) {
+//     return (
+//       <div className="form-wrapper">
+//         <form onSubmit={handleSubmit}>
+//           <label>
+//             SSO Token:
+//             <input type="text" value={token} onChange={handleTokenChange} />
+//           </label>
+//           <br />
+//           <label>
+//             Host ID:
+//             <input type="text" value={hostId} onChange={handleHostIdChange} />
+//           </label>
+//           <br />
+//           <button type="submit">Submit</button>
+//         </form>
+//       </div>
+//     );
+//   }
+// }
+
+// export default App;
+
 import * as Callbridge from '@iotum/callbridge-js';
-import React, { useState} from 'react';
-import styles from './submitForm.module.css'; 
+import React, { useState, useRef, useEffect } from 'react';
+import styles from './submitForm.module.css';
 
 function App() {
   const [token, setToken] = useState('');
   const [hostId, setHostId] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [showChat, setShowChat] = useState(false);
-  const [unreadMessages, setUnreadMessages] = useState(0);
-  const [isLoading, setIsLoading] = useState(true); // Added loading state
+  const [activeTab, setActiveTab] = useState('chat');
+  const [showChatWidget, setShowChatWidget] = useState(false);
+  const [showMeetingWidget, setShowMeetingWidget] = useState(false);
+
+  // Create a reference for the widget container
+  const container = useRef(null);
+  // Store a reference to the current widget instance
+  const widgetRef = useRef(null);
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
 
   const handleTokenChange = (event) => {
     setToken(event.target.value);
   };
+
   const handleHostIdChange = (event) => {
     setHostId(event.target.value);
   };
-  
+
   const handleSubmit = () => {
-  //on submit -> get the number of unread messages 
-  const container = document.createElement('div');
-  container.style.display = 'none';
-  const fakeWidget = new Callbridge.Dashboard(
-    {
-      domain: 'iotum.callbridge.rocks',
-      sso: {
-        token: token,
-        hostId: hostId,
-      },
-      container: container,
-    },
-    "Team",
-  );
-  //event listens for the numbe rof unread messages ONE time 
-  fakeWidget.once('dashboard.UNREAD_MESSAGES', (data) => {
-  let sum = 0;
-  for (const key in data.rooms) {
-    if (data.rooms.hasOwnProperty(key)) {
-      sum += data.rooms[key];
-    }
-  }
-  setUnreadMessages(sum);
-  setIsLoading(false);
-  fakeWidget.unload();
-  });
-  // Hide the form page
-  setSubmitted(true);
+    setSubmitted(true);
   };
 
+  const handleChatButtonClick = () => {
+    setShowChatWidget(true);
+    setShowMeetingWidget(false);
+  };
 
-  const renderChatWidget = () => {
-    let widget = new Callbridge.Dashboard(
-          {
-            domain: 'iotum.callbridge.rocks',
-            sso: {
-              token: token,
-              hostId: hostId,
-            },
-            container: window,
+  const handleMeetingButtonClick = () => {
+    setShowChatWidget(false);
+    setShowMeetingWidget(true);
+  };
+
+  const destroyWidget = () => {
+    if (widgetRef.current) {
+      widgetRef.current.unload();
+      widgetRef.current = null;
+    }
+  };
+
+  const renderWidget = () => {
+    destroyWidget(); // Destroy any existing widget before creating a new one
+
+    if (showMeetingWidget) {
+      console.log("meeting")
+      widgetRef.current = new Callbridge.Meeting(
+        {"domain":"iotum.callbridge.rocks",
+        "sso":{
+          "token":"7c0d18cbd52f88f89446a9cfe59ee9901f2eaa2e40f7c3474b9ed5b34959d3c9",
+          "hostId":"62821"
+        },
+        "container":container.current
+      }, 
+      undefined, 
+      {"skipJoin":true})
+    };
+
+    if (showChatWidget) {
+      console.log("chat")
+      widgetRef.current = new Callbridge.Dashboard(
+        {
+          domain: 'iotum.callbridge.rocks',
+          sso: {
+            token: '7c0d18cbd52f88f89446a9cfe59ee9901f2eaa2e40f7c3474b9ed5b34959d3c9',
+            hostId: '62821',
           },
-          "Team",
-          { layout: 'full' }
+          container: container.current,
+        },
+        'Team',
+        { layout: 'full' }
       );
-
-      widget.on('dashboard.UNREAD_MESSAGES', (data) => {
-        let sum = 0;
-        for (const key in data.rooms) {
-          if (data.rooms.hasOwnProperty(key)) {
-            sum += data.rooms[key];
-          }
-        }
-        setUnreadMessages(sum);
-        setShowChat(false);
-      });
+    }
   }
 
-  if(submitted) {
-  if (isLoading) {
-    return (
-      <div>Loading unread messages...</div> 
-    )
-  }
+  useEffect(() => {
+    if (submitted) {
+      renderWidget();
+    }
+    // Cleanup function to remove the widget when the component unmounts
+    return () => {
+      destroyWidget();
+    };
+  }, [submitted, showChatWidget, showMeetingWidget, activeTab]);
 
+  if (submitted) {
     return (
-      <div className={styles.chatContainer}>
-        <button className={styles.biggerButton} onClick={() => {
-          setShowChat(true)
-        }}>Chat</button>
-        <span className={styles.badge}>{unreadMessages}</span>
-        {showChat && renderChatWidget()}
-      </div>
+    <div className={styles.appContainer}>
+    <div className={styles.verticalTabContainer}>
+      <button onClick={handleChatButtonClick}>Chat</button>
+      <button onClick={handleMeetingButtonClick}>Meeting</button>
+    </div>
+    <div ref={container} className={styles.widgetContainer}></div>
+  </div>
     );
   }
 
-  if(!submitted) {
-    return (
-      <div className="form-wrapper">
-        <form onSubmit={handleSubmit}>
-          <label>
-            SSO Token:
-            <input type="text" value={token} onChange={handleTokenChange} />
-          </label>
-          <br />
-          <label>
-            Host ID:
-            <input type="text" value={hostId} onChange={handleHostIdChange} />
-          </label>
-          <br />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    );
-  }
-};
+  return (
+    <div className="form-wrapper">
+      <form onSubmit={handleSubmit}>
+        <label>
+          SSO Token:
+          <input type="text" value={token} onChange={handleTokenChange} />
+        </label>
+        <br />
+        <label>
+          Host ID:
+          <input type="text" value={hostId} onChange={handleHostIdChange} />
+        </label>
+        <br />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+}
 
 export default App;
