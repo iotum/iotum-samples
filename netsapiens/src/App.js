@@ -7,26 +7,46 @@ function App() {
 const [token, setToken] = useState('');
 const [hostId, setHostId] = useState('');
 const [submitted, setSubmitted] = useState(false);
-const [yourApp, setYourApp] = useState(true); // New state variable to track the active tab
-
+const [yourApp, setYourApp] = useState(true); 
+const [unreadMessages, setUnreadMessages] = useState();
 
 // Create a reference for the widget container
 const container = useRef(null);
 // Store a reference to the current widget instance
 const widgetRef = useRef(null);
 
-
 const handleTokenChange = (event) => {
   setToken(event.target.value);
 };
-
 
 const handleHostIdChange = (event) => {
   setHostId(event.target.value);
 };
 
+const getUnreadMessages = () => {
+  const container = document.createElement('div');
+  container.style.display = 'none';
+  const invisibleWidget = new Callbridge.Dashboard(
+    {
+      domain: 'iotum.callbridge.rocks',
+      sso: {
+        token: token,
+        hostId: hostId,
+      },
+      container: container,
+    },
+    "Team",
+  );
+  //this widget listens for the number of unread messages 
+  invisibleWidget.on('dashboard.UNREAD_MESSAGES', (data) => {
+    const sum = Object.values(data.rooms).reduce((m, n) => m + n, 0);
+    setUnreadMessages(sum);
+  });
+}
+
 
 const handleSubmit = () => {
+  getUnreadMessages();
   setSubmitted(true);
 };
 
@@ -41,7 +61,6 @@ const renderWidget = () => {
       container: container.current,
     }
   );
-
     widgetRef.current.toggle(false);
 }
 
@@ -52,7 +71,7 @@ useEffect(() => {
   }, [submitted]);
 
 const loadWidget = (service) => {
-  if(service === "None") {
+  if(service === "") {
     widgetRef.current.toggle(false);
     setYourApp(true);
   }
@@ -60,16 +79,18 @@ const loadWidget = (service) => {
     widgetRef.current.load(service, service==="Team" ? "Full" : null);
     widgetRef.current.toggle(true);  
     setYourApp(false); 
-  }
+  }  
 }
-
 
   if (submitted) {
     return (
       <div className={styles.appContainer}>
         <div className={styles.verticalTabContainer}>
-          <button onClick={() => loadWidget('None')}>Your App</button>
-          <button onClick={() => loadWidget('Team')}>Team Chat</button>
+          <button onClick={() => loadWidget('')}>Your App</button>
+          <button onClick={() => loadWidget('Team')} style={{ position: 'relative' }}>
+          Team Chat
+            {unreadMessages > 0 && <span className={styles.badge}>{unreadMessages}</span>}
+          </button>
           <button onClick={() => loadWidget('Drive')}>Drive</button>
           <button onClick={() => loadWidget('Contacts')}>Contacts</button>
         </div>
