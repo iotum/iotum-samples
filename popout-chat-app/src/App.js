@@ -33,12 +33,7 @@ function App() {
   );
   //this widget listens for the number of unread messages 
   invisibleWidget.on('dashboard.UNREAD_MESSAGES', (data) => {
-  let sum = 0;
-  for (const key in data.rooms) {
-    if (data.rooms.hasOwnProperty(key)) {
-      sum += data.rooms[key];
-    }
-  }
+  const sum = Object.values(data.rooms).reduce((m, n) => m + n, 0);
   setUnreadMessages(sum);
   //the widget has finished loading the amount of unread messages
   setIsLoading(false);
@@ -58,9 +53,14 @@ function App() {
               hostId: hostId,
             },
             container: window,
+            // target: {
+            //   name: "popout-chat-app",
+            //   features: "width=780, height=360",
+            //   checkExisting: true
+            // }
           },
           "Team",
-          { layout: 'full' }
+          { layout: 'full',}
       );
   }
 

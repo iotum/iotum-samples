@@ -4,7 +4,7 @@
   "homepage": "https://iotum.github.io/iotum-samples/popout-chat-app",
   "private": true,
   "dependencies": {
-    "@iotum/callbridge-js": "^1.0.4",
+    "@iotum/callbridge-js": "github:iotum/callbridge-js#v1.0.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
