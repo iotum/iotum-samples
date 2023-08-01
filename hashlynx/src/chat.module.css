@@ -1,0 +1,49 @@
+/* Styles for the main container */
+.container {
+  display: flex;
+}
+
+/* Styles for the room list container */
+.roomListContainer {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+/* Styles for each chat room item */
+.chatRoomItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Styles for room path buttons (tabs) */
+button {
+  background-color: #f1f1f1;
+  border: none;
+  border-right: 2px solid #ccc;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+/* Styles for the active room path button (tab) */
+button.active {
+  background-color: #ccc;
+  font-weight: bold;
+}
+
+/* Styles for the chat rooms container */
+.chatRoomsContainer {
+  display: flex;
+}
+
+/* Styles for chat rooms */
+.chatRoom {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+  height: 400px; /* Adjust the height to make the chat rooms longer */
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+}

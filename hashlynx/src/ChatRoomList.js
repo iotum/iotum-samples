@@ -1,18 +1,38 @@
 import React from 'react';
-import ChatRoom  from './ChatRoom';
+import ChatRoom from './ChatRoom';
+import styles from './chat.module.css';
 
-const ChatRoomList = ({rooms}) => {
-  let allRooms = [];
-  
-  for(let i = 0, count=0; i<rooms.length; i++) {
-    if(rooms[i].bool){
-      allRooms[count] = <ChatRoom path={rooms[i].path} key={rooms[i].path} />;
-      count++;
-    }
-  }
-
-  return <div>{allRooms}</div>
+const ChatRoomList = ({ rooms, onRoomButtonClick, onRoomClose }) => {
+  return (
+    <div className={styles.container}>
+      <div className={styles.roomListContainer}>
+        {rooms.map((room) => (
+          <div key={room.path} className={styles.chatRoomItem}>
+            <button
+              onClick={() => onRoomButtonClick(room.path)}
+              className={room.bool ? styles.active : ''}
+            >
+              {room.name}
+            </button>
+            {room.bool && (
+              <button
+                className={styles.closeButton}
+                onClick={() => onRoomClose(room.path)}
+              >
+                x
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className={styles.chatRoomsContainer}>
+        {rooms.map((room) => (
+          room.bool && <ChatRoom key={room.path} path={room.path} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
-
 export default ChatRoomList;
+
