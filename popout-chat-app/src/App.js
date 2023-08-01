@@ -1,5 +1,5 @@
 import * as Callbridge from '@iotum/callbridge-js';
-import React, { useState} from 'react';
+import React, {useState, useRef} from 'react';
 import styles from './submitForm.module.css'; 
 
 function App() {
@@ -8,6 +8,8 @@ function App() {
   const [submitted, setSubmitted] = useState(false);
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [isLoading, setIsLoading] = useState(true); //Loading status of unread messages
+
+  const widget = useRef(null);
 
   const handleTokenChange = (event) => {
     setToken(event.target.value);
@@ -18,34 +20,32 @@ function App() {
   
   const handleSubmit = () => {
   //on submit -> get the number of unread messages 
-  const container = document.createElement('div');
-  container.style.display = 'none';
-  const invisibleWidget = new Callbridge.Dashboard(
-    {
-      domain: 'iotum.callbridge.rocks',
-      sso: {
-        token: token,
-        hostId: hostId,
+    const container = document.createElement('div');
+    container.style.display = 'none';
+    const invisibleWidget = new Callbridge.Dashboard(
+      {
+        domain: 'iotum.callbridge.rocks',
+        sso: {
+          token: token,
+          hostId: hostId,
+        },
+        container: container,
       },
-      container: container,
-    },
-    "Team",
-  );
-  //this widget listens for the number of unread messages 
-  invisibleWidget.on('dashboard.UNREAD_MESSAGES', (data) => {
-  const sum = Object.values(data.rooms).reduce((m, n) => m + n, 0);
-  setUnreadMessages(sum);
-  //the widget has finished loading the amount of unread messages
-  setIsLoading(false);
-  });
-  // Hide the form page
-  setSubmitted(true);
+      "Team",
+    );
+
+    invisibleWidget.on('dashboard.UNREAD_MESSAGES', (data) => {
+    const sum = Object.values(data.rooms).reduce((m, n) => m + n, 0);
+    setUnreadMessages(sum);
+    setIsLoading(false);
+    });
+    // Hide the form page
+    setSubmitted(true);
   };
 
-
   const renderChatWidget = () => {
-    //chatWidget is the widget that opens in a new window when you press the chat button
-    let chatWidget = new Callbridge.Dashboard(
+    if (!widget.current || !widget.current.instance) {
+        widget.current = new Callbridge.Dashboard(
           {
             domain: 'iotum.callbridge.rocks',
             sso: {
@@ -53,15 +53,17 @@ function App() {
               hostId: hostId,
             },
             container: window,
-            // target: {
-            //   name: "popout-chat-app",
-            //   features: "width=780, height=360",
-            //   checkExisting: true
-            // }
+            target: {
+              name: "CallbridgeChatWidget",
+              checkExisting: true,
+            }
           },
-          "Team",
-          { layout: 'full',}
-      );
+          'Team',
+        );
+    }
+      else if(widget.current.instance) {
+        widget.current.instance.focus();
+      }
   }
 
   if(submitted) {
@@ -81,10 +83,11 @@ function App() {
     );
   }
 
-  //submit SSo token and hostId page: 
+  //submit SSO token and hostId page: 
   if(!submitted) {
     return (
       <div className="form-wrapper">
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 'bold'}}>Popout Chat App</div>
         <form onSubmit={handleSubmit}>
           <label>
             SSO Token:
