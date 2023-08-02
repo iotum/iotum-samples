@@ -23,30 +23,30 @@ const handleHostIdChange = (event) => {
   setHostId(event.target.value);
 };
 
-const getUnreadMessages = () => {
-  const container = document.createElement('div');
-  container.style.display = 'none';
-  const invisibleWidget = new Callbridge.Dashboard(
-    {
-      domain: 'iotum.callbridge.rocks',
-      sso: {
-        token: token,
-        hostId: hostId,
-      },
-      container: container,
-    },
-    "Team",
-  );
-  //this widget listens for the number of unread messages 
-  invisibleWidget.on('dashboard.UNREAD_MESSAGES', (data) => {
-    const sum = Object.values(data.rooms).reduce((m, n) => m + n, 0);
-    setUnreadMessages(sum);
-  });
-}
+// const getUnreadMessages = () => {
+//   const container = document.createElement('div');
+//   container.style.display = 'none';
+//   const invisibleWidget = new Callbridge.Dashboard(
+//     {
+//       domain: 'iotum.callbridge.rocks',
+//       sso: {
+//         token: token,
+//         hostId: hostId,
+//       },
+//       container: container,
+//     },
+//     "Team",
+//   );
+//   //this widget listens for the number of unread messages 
+//   invisibleWidget.on('dashboard.UNREAD_MESSAGES', (data) => {
+//     const sum = Object.values(data.rooms).reduce((m, n) => m + n, 0);
+//     setUnreadMessages(sum);
+//   });
+// }
 
 
 const handleSubmit = () => {
-  getUnreadMessages();
+  // getUnreadMessages();
   setSubmitted(true);
 };
 
@@ -59,9 +59,20 @@ const renderWidget = () => {
         hostId: hostId,
     },
       container: container.current,
-    }
+    }, 
+    "Team",
   );
     widgetRef.current.toggle(false);
+
+    widgetRef.current.on('dashboard.UNREAD_MESSAGES', (data) => {
+        const sum = Object.values(data.rooms).reduce((m, n) => m + n, 0);
+        setUnreadMessages(sum);
+        console.log("There was an unread messages event");
+    });
+
+    widgetRef.current.on('dashboard.NAVIGATE', (data) => {
+      console.log("There was a navigate event");
+  });
 }
 
 useEffect(() => {
