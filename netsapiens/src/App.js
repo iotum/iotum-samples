@@ -72,6 +72,7 @@ const renderWidget = () => {
 
     widgetRef.current.on('dashboard.NAVIGATE', (data) => {
       console.log("There was a navigate event");
+      console.log(data)
   });
 }
 
