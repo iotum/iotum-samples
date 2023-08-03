@@ -309,11 +309,10 @@ const renderWidget = () => {
 
     chatWidget.current.on('dashboard.NAVIGATE', (data) => {
       if(start) {
-      chatWidget.current.toggle(true);
-      setYourApp(false);
+        loadWidget('Team');
+        console.log("There was a navigate event in the main widget");
+        console.log(data)
       }
-      console.log("There was a navigate event in the main widget");
-      console.log(data)
     });
 
     chatWidget.current.on('dashboard.UNREAD_MESSAGES', (data) => {
