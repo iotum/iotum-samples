@@ -257,6 +257,7 @@ const [hostId, setHostId] = useState('');
 const [submitted, setSubmitted] = useState(false);
 const [yourApp, setYourApp] = useState(true); 
 const [unreadMessages, setUnreadMessages] = useState();
+const [start, setStart] = useState(false); 
 
 // Create a reference for the widget container
 const container = useRef(null);
@@ -307,10 +308,19 @@ const renderWidget = () => {
       chatWidget.current.toggle(false);
 
     chatWidget.current.on('dashboard.NAVIGATE', (data) => {
+      if(start) {
       chatWidget.current.toggle(true);
+      setYourApp(false);
+      }
       console.log("There was a navigate event in the main widget");
       console.log(data)
-  });
+    });
+
+    chatWidget.current.on('dashboard.UNREAD_MESSAGES', (data) => {
+      console.log("There was an unread messages event")
+      const sum = Object.values(data.rooms).reduce((m, n) => m + n, 0);
+      setUnreadMessages(sum);
+    });
 }
 
 useEffect(() => {
@@ -320,6 +330,7 @@ useEffect(() => {
   }, [submitted]);
 
 const loadWidget = (service) => {
+  setStart(true);
   if(service === "") {
     widget.current.toggle(false);
     chatWidget.current.toggle(false);
