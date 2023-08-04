@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/iotum-samples/static/css/main.7e2b1fca.css",
-    "main.js": "/iotum-samples/static/js/main.3808da09.js",
-    "static/js/496.66f11e7c.chunk.js": "/iotum-samples/static/js/496.66f11e7c.chunk.js",
+    "main.css": "/iotum-samples/static/css/main.f4f523dd.css",
+    "main.js": "/iotum-samples/static/js/main.c9e4b48f.js",
+    "static/js/787.994511a4.chunk.js": "/iotum-samples/static/js/787.994511a4.chunk.js",
     "index.html": "/iotum-samples/index.html",
-    "main.7e2b1fca.css.map": "/iotum-samples/static/css/main.7e2b1fca.css.map",
-    "main.3808da09.js.map": "/iotum-samples/static/js/main.3808da09.js.map",
-    "496.66f11e7c.chunk.js.map": "/iotum-samples/static/js/496.66f11e7c.chunk.js.map"
+    "main.f4f523dd.css.map": "/iotum-samples/static/css/main.f4f523dd.css.map",
+    "main.c9e4b48f.js.map": "/iotum-samples/static/js/main.c9e4b48f.js.map",
+    "787.994511a4.chunk.js.map": "/iotum-samples/static/js/787.994511a4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7e2b1fca.css",
-    "static/js/main.3808da09.js"
+    "static/css/main.f4f523dd.css",
+    "static/js/main.c9e4b48f.js"
   ]
 }

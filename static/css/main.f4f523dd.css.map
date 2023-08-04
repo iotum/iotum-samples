@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.f4f523dd.css","mappings":"AAAA,KACE,WAEF,CAEA,SAHE,UAMF,CAHA,IACE,WAEF","sources":["App.css"],"sourcesContent":[".App {\n  height: 100%;\n  width: 100%;\n}\n\ndiv {\n  height: 40vh;\n  width: 100%;\n}"],"names":[],"sourceRoot":""}
