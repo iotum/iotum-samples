@@ -310,6 +310,7 @@ function App() {
           </button>
         </div>
         {yourApp && <div>Your app goes here</div>}
+        {!chatWidgetReady && <div>The widgets are loading</div>}
 
         <div ref={container} className={styles.widgetContainer}></div>
       </div>
