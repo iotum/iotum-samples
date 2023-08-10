@@ -45,6 +45,7 @@ function App() {
 
   const renderChatWidget = () => {
     if (!widget.current || !widget.current.instance) {
+      console.log("Create a new widget because the window was closed/there never was a widget")
         widget.current = new Callbridge.Dashboard(
           {
             domain: 'iotum.callbridge.rocks',
@@ -60,8 +61,13 @@ function App() {
           },
           'Team',
         );
+
+        widget.current.on('dashboard.NAVIGATE', (data)=> {
+          console.log("navigate event");
+        })
     }
       else if(widget.current.instance) {
+        console.log("Change focus to the existing widget that's open in a new window")
         widget.current.instance.focus();
       }
   }
