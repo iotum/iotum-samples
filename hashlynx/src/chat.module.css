@@ -35,6 +35,7 @@ button.active {
 /* Styles for the chat rooms container */
 .chatRoomsContainer {
   display: flex;
+  margin-top: 15px;
 }
 
 /* Styles for chat rooms */
@@ -43,7 +44,37 @@ button.active {
   border-radius: 5px;
   width: 300px;
   height: 400px; /* Adjust the height to make the chat rooms longer */
-  margin-right: 10px;
+  margin-right: 20px;
   display: flex;
   flex-direction: column;
 }
+
+.activeRoom {
+  position: relative;
+}
+
+/* Hide inactive chat rooms */
+.chatRoomsContainer {
+  display: flex;
+}
+
+/* Additional styles for the close button */
+.closeButton {
+  position: absolute;
+  top: -8px;
+  right: -16px;
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  border-radius: 50%; /* Make the button round */
+  width: 20px; 
+  height: 20px; 
+  padding: 0;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+

@@ -14,25 +14,26 @@ const ChatRoomList = ({ rooms, onRoomButtonClick, onRoomClose }) => {
             >
               {room.name}
             </button>
-            {room.bool && (
+          </div>
+        ))}
+      </div>
+      <div className={styles.chatRoomsContainer}>
+        {rooms.map((room) =>
+          room.bool && (
+            <div key={room.path} className={`${styles.chatRoom} ${styles.activeRoom}`}>
+              <ChatRoom path={room.path} />
               <button
                 className={styles.closeButton}
                 onClick={() => onRoomClose(room.path)}
               >
                 x
               </button>
-            )}
-          </div>
-        ))}
-      </div>
-      <div className={styles.chatRoomsContainer}>
-        {rooms.map((room) => (
-          room.bool && <ChatRoom key={room.path} path={room.path} />
-        ))}
+            </div>
+          )
+        )}
       </div>
     </div>
   );
 };
 
 export default ChatRoomList;
-
