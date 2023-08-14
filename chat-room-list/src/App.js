@@ -36,6 +36,7 @@ const App = () => {
   };
 
   const handleRoomClose = (path) => {
+    console.log(path + " was closed");
     setAllRooms((prevRooms) => {
       return prevRooms.map((room) => {
         if (room.path === path) {
@@ -87,8 +88,20 @@ const App = () => {
     
       setAllRooms(allRoomsChange);
     });
-    
-    widget.current.toggle(false);
+
+    widget.current.on('dashboard.NAVIGATE', (data) => {
+      if (data.pathname !== "/") {
+        widget.current.load("Team", {layout: "list"})
+        console.log("There was a navigate event to " + data.pathname + " in the list widget and the list widget was reloaded");
+      } 
+
+      handleRoomButtonClick(data.pathname);
+      }
+    )
+
+    widget.current.on('dashboard.READY', () => {
+      console.log("The list widget was rendered");
+    });
   }
 
   useEffect(() => {
@@ -99,15 +112,15 @@ const App = () => {
   
   if (submitted) {
     return (
-      <div>
-        <div id="room-buttons">
+      <div className={styles.container}>
+        <div id="chat" className={styles.roomListContainer}></div>
+
+        <div>
           <ChatRoomList
             rooms={allRooms}
-            onRoomButtonClick={handleRoomButtonClick}
             onRoomClose={handleRoomClose}
           />
         </div>
-        <div id="chat"></div>
       </div>
     );
   }
