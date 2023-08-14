@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/iotum-samples/list-widget-ui/static/css/main.72371323.css",
+    "main.js": "/iotum-samples/list-widget-ui/static/js/main.d3a7e97f.js",
+    "static/js/496.eebacec1.chunk.js": "/iotum-samples/list-widget-ui/static/js/496.eebacec1.chunk.js",
+    "index.html": "/iotum-samples/list-widget-ui/index.html",
+    "main.72371323.css.map": "/iotum-samples/list-widget-ui/static/css/main.72371323.css.map",
+    "main.d3a7e97f.js.map": "/iotum-samples/list-widget-ui/static/js/main.d3a7e97f.js.map",
+    "496.eebacec1.chunk.js.map": "/iotum-samples/list-widget-ui/static/js/496.eebacec1.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.72371323.css",
+    "static/js/main.d3a7e97f.js"
+  ]
+}
