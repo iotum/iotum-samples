@@ -115,6 +115,7 @@ const App = () => {
 
     return (
       <div className="form-wrapper">
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 'bold'}}>List Widget UI App</div>
       <form onSubmit={handleSubmit}>
       <label>
       SSO Token:

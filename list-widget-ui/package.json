@@ -1,7 +1,7 @@
 {
-  "name": "popout-chat-app",
+  "name": "list-widget-ui",
   "version": "0.1.0",
-  "homepage": "https://iotum.github.io/iotum-samples/pop",
+  "homepage": "https://iotum.github.io/iotum-samples/list-widget-ui",
   "private": true,
   "dependencies": {
     "@iotum/callbridge-js": "github:iotum/callbridge-js#v1.0.5",
