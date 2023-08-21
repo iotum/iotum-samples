@@ -64,6 +64,7 @@ function App() {
       chatWidget.current.on('dashboard.READY', () => {
         console.log("Chat widget is ready");
         setChatWidgetReady(true); // Set chatWidgetReady to true when chat widget is ready
+        setStart(true);
       });
     }); 
 }
@@ -97,13 +98,11 @@ function App() {
       console.log("Load your app")
     }
     else if (service === "Team") {
-      setStart(true);
       chatWidget.current.toggle(true);
       widget.current.toggle(false);  
       setYourApp(false); 
       console.log("Load the team chat widget")
     }  else {
-      setStart(true); 
       widget.current.toggle(true); 
       widget.current.load(service);
       chatWidget.current.toggle(false);
