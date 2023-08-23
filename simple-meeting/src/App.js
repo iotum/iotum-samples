@@ -37,8 +37,8 @@ function App() {
       {
         domain: 'iotum.callbridge.rocks',
         sso: {
-          token: '7c0d18cbd52f88f89446a9cfe59ee9901f2eaa2e40f7c3474b9ed5b34959d3c9',
-          hostId: '62821'
+          token: token,
+          hostId: hostId
         },
         container: container.current,
       },
