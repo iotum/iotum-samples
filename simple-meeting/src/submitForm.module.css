@@ -55,57 +55,52 @@
 
 
 
+/* Access Code Page */
+/* styles.module.css */
 
-  /* tab page styles */
-/* submitForm.module.css */
 .appContainer {
-  display: flex;
-  flex-direction: row;
   height: 100vh;
 }
 
-.verticalTabContainer {
+.startButton {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  width: 15%;
-}
-
-.verticalTabContainer button {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  width: 100%; /* Set the width as a percentage of its container */
-  height: 5%; /* Set the height as a percentage of its container */
-  background-color: #f0f0f0;
-  border: none;
-  margin-bottom: 2%; /* Add a margin between buttons as a percentage */
-  cursor: pointer;
-  padding: 1%; /* Add padding inside the buttons as a percentage */
-  font-size: 80%;
+  justify-content: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
 
+.accessCodeLabel {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
 
-.verticalTabContainer button:focus {
-  outline: none; /* Remove the default focus outline */
+.accessCodeInput {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  width: 200px;
+}
+
+.startMeetingButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.startMeetingButton:hover {
+  background-color: #0056b3;
 }
 
 .widgetContainer {
-  width: 100%; /* Set the width as a percentage of its container */
-}
-
-.badge {
-  position: absolute;
-  top: 1px;
-  right: 1px;
-  background: red;
-  color: white;
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: bold;
+  height: 100%;
 }
