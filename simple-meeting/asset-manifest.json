@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/iotum-samples/simple-meeting/static/css/main.70b8bd4b.css",
+    "main.js": "/iotum-samples/simple-meeting/static/js/main.cbf94458.js",
+    "static/js/496.3bcc73ef.chunk.js": "/iotum-samples/simple-meeting/static/js/496.3bcc73ef.chunk.js",
+    "index.html": "/iotum-samples/simple-meeting/index.html",
+    "main.70b8bd4b.css.map": "/iotum-samples/simple-meeting/static/css/main.70b8bd4b.css.map",
+    "main.cbf94458.js.map": "/iotum-samples/simple-meeting/static/js/main.cbf94458.js.map",
+    "496.3bcc73ef.chunk.js.map": "/iotum-samples/simple-meeting/static/js/496.3bcc73ef.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.70b8bd4b.css",
+    "static/js/main.cbf94458.js"
+  ]
+}
