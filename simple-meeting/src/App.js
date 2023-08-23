@@ -69,7 +69,7 @@ function App() {
 
   return (
     <div className="form-wrapper">
-      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 'bold'}}>Tabbed Dashboard App</div>
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 'bold'}}>Simple Meeting App</div>
       <form onSubmit={handleSubmit}>
         <label>
           SSO Token:
