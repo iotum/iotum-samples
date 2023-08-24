@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/iotum-samples/chat-room-list/static/css/main.3115f51a.css",
-    "main.js": "/iotum-samples/chat-room-list/static/js/main.064a8e09.js",
+    "main.css": "/iotum-samples/chat-room-list/static/css/main.28407b0f.css",
+    "main.js": "/iotum-samples/chat-room-list/static/js/main.82f4835d.js",
     "static/js/496.2bb02def.chunk.js": "/iotum-samples/chat-room-list/static/js/496.2bb02def.chunk.js",
     "index.html": "/iotum-samples/chat-room-list/index.html",
-    "main.3115f51a.css.map": "/iotum-samples/chat-room-list/static/css/main.3115f51a.css.map",
-    "main.064a8e09.js.map": "/iotum-samples/chat-room-list/static/js/main.064a8e09.js.map",
+    "main.28407b0f.css.map": "/iotum-samples/chat-room-list/static/css/main.28407b0f.css.map",
+    "main.82f4835d.js.map": "/iotum-samples/chat-room-list/static/js/main.82f4835d.js.map",
     "496.2bb02def.chunk.js.map": "/iotum-samples/chat-room-list/static/js/496.2bb02def.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3115f51a.css",
-    "static/js/main.064a8e09.js"
+    "static/css/main.28407b0f.css",
+    "static/js/main.82f4835d.js"
   ]
 }
