@@ -7,6 +7,7 @@ function App() {
   const [hostId, setHostId] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [accessCode, setAccessCode] = useState('');
+  const [domain, setDomain] = useState('iotum.callbridge.rocks'); // default domain
 
   const container = useRef(null);
   const widget = useRef(null);
@@ -27,6 +28,10 @@ function App() {
     setAccessCode(event.target.value)
   }
 
+  const handleDomainChange = (event) => {
+    setDomain(event.target.value);
+  }
+
   const renderWidget = () => {
     console.log("render meeting widget")
 
@@ -35,7 +40,7 @@ function App() {
     }
     widget.current = new Callbridge.Meeting(
       {
-        domain: 'iotum.callbridge.rocks',
+        domain: domain, // Use the domain from state
         sso: {
           token: token,
           hostId: hostId
@@ -71,6 +76,11 @@ function App() {
     <div className="form-wrapper">
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 'bold'}}>Simple Meeting App</div>
       <form onSubmit={handleSubmit}>
+        <label>
+          Domain:
+          <input type="text" value={domain} onChange={handleDomainChange} placeholder="Enter domain here" />
+        </label>
+        <br />
         <label>
           SSO Token:
           <input type="text" value={token} onChange={handleTokenChange} />
