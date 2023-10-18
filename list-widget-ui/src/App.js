@@ -116,24 +116,23 @@ const App = () => {
     );
   }
 
-
     return (
       <div className="form-wrapper">
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 'bold'}}>List Widget UI App</div>
       <form onSubmit={handleSubmit}>
       <label>
       Domain:
-      <input type="text" value={domain} onChange={handleDomainChange} />
+      <input type="text" value={domain} onChange={handleDomainChange} required/>
       </label>
       <br />
       <label>
       SSO Token:
-      <input type="text" value={token} onChange={handleTokenChange} />
+      <input type="text" value={token} onChange={handleTokenChange} required/>
       </label>
       <br />
       <label>
       Host ID:
-      <input type="text" value={hostId} onChange={handleHostIdChange} />
+      <input type="text" value={hostId} onChange={handleHostIdChange} required/>
       </label>
       <br />
       <button type="submit">Submit</button>
