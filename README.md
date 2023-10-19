@@ -1,8 +1,8 @@
 # Simple-Meeting
 
 ## Overview
-This is a sample app for the meeting conference. You can access it here: <p> https://iotum.github.io/iotum-samples/simple-meeting/
-
+This is a sample app for the meeting conference. Access the app through the following link: 
+[Simple-Meeting App](https://iotum.github.io/iotum-samples/simple-meeting/)
 ## Login to the Application:
 
 1. **Choosing the Domain**:
@@ -18,4 +18,5 @@ This is a sample app for the meeting conference. You can access it here: <p> htt
 4. **Using the Application**:
    - After logging in, you can now utilize and explore the features of the iotum product. Enjoy!
 
->Note: Consult the project wiki for documentation on retrieving the SSO Token and Host ID Value using Postman.
+> **Note:** For guidance on retrieving the SSO Token and Host ID via Postman, refer to the project's [Postman Documentation](https://github.com/iotum/iotum-samples/wiki/Get-SSO-Token-and-Host-ID-from-Postman).
+
