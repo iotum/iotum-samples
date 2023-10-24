@@ -8,6 +8,7 @@ function App() {
   const [submitted, setSubmitted] = useState(false);
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [isLoading, setIsLoading] = useState(true); //Loading status of unread messages
+  const [domain, setDomain] = useState('iotum.callbridge.rocks'); //default domain
 
   const widget = useRef(null);
 
@@ -16,6 +17,10 @@ function App() {
   };
   const handleHostIdChange = (event) => {
     setHostId(event.target.value);
+  };
+
+  const handleDomainChange = (event) => {
+    setDomain(event.target.value);
   };
   
   const handleSubmit = () => {
@@ -48,7 +53,7 @@ function App() {
       console.log("Create a new widget because the window was closed/there never was a widget")
         widget.current = new Callbridge.Dashboard(
           {
-            domain: 'iotum.callbridge.rocks',
+            domain: domain, // using the state variable for domain
             sso: {
               token: token,
               hostId: hostId,
@@ -95,17 +100,22 @@ function App() {
       <div className="form-wrapper">
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 'bold'}}>Popout Chat App</div>
         <form onSubmit={handleSubmit}>
-          <label>
-            SSO Token:
-            <input type="text" value={token} onChange={handleTokenChange} />
-          </label>
-          <br />
-          <label>
-            Host ID:
-            <input type="text" value={hostId} onChange={handleHostIdChange} />
-          </label>
-          <br />
-          <button type="submit">Submit</button>
+        <label>
+          Domain:
+          <input type="text" value={domain} onChange={handleDomainChange} required/>
+        </label>
+        <br />
+        <label>
+          SSO Token:
+          <input type="text" value={token} onChange={handleTokenChange} required/>
+        </label>
+        <br />
+        <label>
+          Host ID:
+          <input type="text" value={hostId} onChange={handleHostIdChange} required/>
+        </label>
+        <br />
+        <button type="submit">Submit</button>
         </form>
       </div>
     );
