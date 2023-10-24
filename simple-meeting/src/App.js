@@ -78,17 +78,17 @@ function App() {
       <form onSubmit={handleSubmit}>
         <label>
           Domain:
-          <input type="text" value={domain} onChange={handleDomainChange} placeholder="Enter domain here" />
+          <input type="text" value={domain} onChange={handleDomainChange} required/>
         </label>
         <br />
         <label>
           SSO Token:
-          <input type="text" value={token} onChange={handleTokenChange} />
+          <input type="text" value={token} onChange={handleTokenChange} required/>
         </label>
         <br />
         <label>
           Host ID:
-          <input type="text" value={hostId} onChange={handleHostIdChange} />
+          <input type="text" value={hostId} onChange={handleHostIdChange} required/>
         </label>
         <br />
         <button type="submit">Submit</button>
