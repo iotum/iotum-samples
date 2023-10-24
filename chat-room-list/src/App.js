@@ -8,6 +8,7 @@ const App = () => {
   const [hostId, setHostId] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [allRooms, setAllRooms] = useState([]);
+  const [domain, setDomain] = useState('iotum.callbridge.rocks'); //default domain
 
   const widget = useRef(null);
 
@@ -18,6 +19,10 @@ const App = () => {
   
   const handleHostIdChange = (event) => {
     setHostId(event.target.value);
+  };
+
+  const handleDomainChange = (event) => {
+    setDomain(event.target.value);
   };
 
   const handleSubmit = () => {
@@ -50,7 +55,7 @@ const App = () => {
   const renderWidget = () => {
     widget.current = new Callbridge.Dashboard(
       {
-        domain: 'iotum.callbridge.rocks',
+        domain: domain, // using the state variable for domain
         sso: {
           token: token,
           hostId: hostId
@@ -131,13 +136,18 @@ const App = () => {
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 'bold'}}>Chat Room List App</div>
       <form onSubmit={handleSubmit}>
       <label>
+      Domain:
+      <input type="text" value={domain} onChange={handleDomainChange} required/>
+      </label>
+      <br />
+      <label>
       SSO Token:
-      <input type="text" value={token} onChange={handleTokenChange} />
+      <input type="text" value={token} onChange={handleTokenChange} required/>
       </label>
       <br />
       <label>
       Host ID:
-      <input type="text" value={hostId} onChange={handleHostIdChange} />
+      <input type="text" value={hostId} onChange={handleHostIdChange} required/>
       </label>
       <br />
       <button type="submit">Submit</button>
