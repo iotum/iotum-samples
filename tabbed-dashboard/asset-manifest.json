@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/iotum-samples/tabbed-dashboard/static/css/main.c8ebd476.css",
-    "main.js": "/iotum-samples/tabbed-dashboard/static/js/main.56aec3a0.js",
+    "main.css": "/iotum-samples/tabbed-dashboard/static/css/main.56d71096.css",
+    "main.js": "/iotum-samples/tabbed-dashboard/static/js/main.b81ccc87.js",
     "static/js/496.66f11e7c.chunk.js": "/iotum-samples/tabbed-dashboard/static/js/496.66f11e7c.chunk.js",
     "index.html": "/iotum-samples/tabbed-dashboard/index.html",
-    "main.c8ebd476.css.map": "/iotum-samples/tabbed-dashboard/static/css/main.c8ebd476.css.map",
-    "main.56aec3a0.js.map": "/iotum-samples/tabbed-dashboard/static/js/main.56aec3a0.js.map",
+    "main.56d71096.css.map": "/iotum-samples/tabbed-dashboard/static/css/main.56d71096.css.map",
+    "main.b81ccc87.js.map": "/iotum-samples/tabbed-dashboard/static/js/main.b81ccc87.js.map",
     "496.66f11e7c.chunk.js.map": "/iotum-samples/tabbed-dashboard/static/js/496.66f11e7c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c8ebd476.css",
-    "static/js/main.56aec3a0.js"
+    "static/css/main.56d71096.css",
+    "static/js/main.b81ccc87.js"
   ]
 }
