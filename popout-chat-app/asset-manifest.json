@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/iotum-samples/popout-chat-app/static/css/main.241b6c71.css",
-    "main.js": "/iotum-samples/popout-chat-app/static/js/main.2710490a.js",
+    "main.js": "/iotum-samples/popout-chat-app/static/js/main.a7358b92.js",
     "static/js/496.66f11e7c.chunk.js": "/iotum-samples/popout-chat-app/static/js/496.66f11e7c.chunk.js",
     "index.html": "/iotum-samples/popout-chat-app/index.html",
     "main.241b6c71.css.map": "/iotum-samples/popout-chat-app/static/css/main.241b6c71.css.map",
-    "main.2710490a.js.map": "/iotum-samples/popout-chat-app/static/js/main.2710490a.js.map",
+    "main.a7358b92.js.map": "/iotum-samples/popout-chat-app/static/js/main.a7358b92.js.map",
     "496.66f11e7c.chunk.js.map": "/iotum-samples/popout-chat-app/static/js/496.66f11e7c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.241b6c71.css",
-    "static/js/main.2710490a.js"
+    "static/js/main.a7358b92.js"
   ]
 }
