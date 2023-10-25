@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/iotum-samples/popout-chat-app/static/css/main.362d1346.css",
-    "main.js": "/iotum-samples/popout-chat-app/static/js/main.e509a196.js",
+    "main.css": "/iotum-samples/popout-chat-app/static/css/main.241b6c71.css",
+    "main.js": "/iotum-samples/popout-chat-app/static/js/main.2710490a.js",
     "static/js/496.66f11e7c.chunk.js": "/iotum-samples/popout-chat-app/static/js/496.66f11e7c.chunk.js",
     "index.html": "/iotum-samples/popout-chat-app/index.html",
-    "main.362d1346.css.map": "/iotum-samples/popout-chat-app/static/css/main.362d1346.css.map",
-    "main.e509a196.js.map": "/iotum-samples/popout-chat-app/static/js/main.e509a196.js.map",
+    "main.241b6c71.css.map": "/iotum-samples/popout-chat-app/static/css/main.241b6c71.css.map",
+    "main.2710490a.js.map": "/iotum-samples/popout-chat-app/static/js/main.2710490a.js.map",
     "496.66f11e7c.chunk.js.map": "/iotum-samples/popout-chat-app/static/js/496.66f11e7c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.362d1346.css",
-    "static/js/main.e509a196.js"
+    "static/css/main.241b6c71.css",
+    "static/js/main.2710490a.js"
   ]
 }
