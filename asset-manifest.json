@@ -1,35 +1,35 @@
 {
   "files": {
     "main.css": "/iotum-samples/static/css/main.b9a730fe.css",
-    "main.js": "/iotum-samples/static/js/main.ed22515c.js",
+    "main.js": "/iotum-samples/static/js/main.f0dc5243.js",
     "static/css/528.b3d5cfcc.chunk.css": "/iotum-samples/static/css/528.b3d5cfcc.chunk.css",
-    "static/js/528.06c3a853.chunk.js": "/iotum-samples/static/js/528.06c3a853.chunk.js",
+    "static/js/528.41b794c1.chunk.js": "/iotum-samples/static/js/528.41b794c1.chunk.js",
     "static/css/210.9e4429f7.chunk.css": "/iotum-samples/static/css/210.9e4429f7.chunk.css",
-    "static/js/210.5041c705.chunk.js": "/iotum-samples/static/js/210.5041c705.chunk.js",
+    "static/js/210.6fe89c2b.chunk.js": "/iotum-samples/static/js/210.6fe89c2b.chunk.js",
     "static/css/906.ac0f205c.chunk.css": "/iotum-samples/static/css/906.ac0f205c.chunk.css",
-    "static/js/906.56accfd9.chunk.js": "/iotum-samples/static/js/906.56accfd9.chunk.js",
+    "static/js/906.49194a70.chunk.js": "/iotum-samples/static/js/906.49194a70.chunk.js",
     "static/css/935.f7d4c3a8.chunk.css": "/iotum-samples/static/css/935.f7d4c3a8.chunk.css",
-    "static/js/935.4d4ca839.chunk.js": "/iotum-samples/static/js/935.4d4ca839.chunk.js",
+    "static/js/935.e262e28f.chunk.js": "/iotum-samples/static/js/935.e262e28f.chunk.js",
     "static/css/197.193aea79.chunk.css": "/iotum-samples/static/css/197.193aea79.chunk.css",
-    "static/js/197.2d551962.chunk.js": "/iotum-samples/static/js/197.2d551962.chunk.js",
+    "static/js/197.5f57680b.chunk.js": "/iotum-samples/static/js/197.5f57680b.chunk.js",
     "static/js/74.cd3cee51.chunk.js": "/iotum-samples/static/js/74.cd3cee51.chunk.js",
     "index.html": "/iotum-samples/index.html",
     "main.b9a730fe.css.map": "/iotum-samples/static/css/main.b9a730fe.css.map",
-    "main.ed22515c.js.map": "/iotum-samples/static/js/main.ed22515c.js.map",
+    "main.f0dc5243.js.map": "/iotum-samples/static/js/main.f0dc5243.js.map",
     "528.b3d5cfcc.chunk.css.map": "/iotum-samples/static/css/528.b3d5cfcc.chunk.css.map",
-    "528.06c3a853.chunk.js.map": "/iotum-samples/static/js/528.06c3a853.chunk.js.map",
+    "528.41b794c1.chunk.js.map": "/iotum-samples/static/js/528.41b794c1.chunk.js.map",
     "210.9e4429f7.chunk.css.map": "/iotum-samples/static/css/210.9e4429f7.chunk.css.map",
-    "210.5041c705.chunk.js.map": "/iotum-samples/static/js/210.5041c705.chunk.js.map",
+    "210.6fe89c2b.chunk.js.map": "/iotum-samples/static/js/210.6fe89c2b.chunk.js.map",
     "906.ac0f205c.chunk.css.map": "/iotum-samples/static/css/906.ac0f205c.chunk.css.map",
-    "906.56accfd9.chunk.js.map": "/iotum-samples/static/js/906.56accfd9.chunk.js.map",
+    "906.49194a70.chunk.js.map": "/iotum-samples/static/js/906.49194a70.chunk.js.map",
     "935.f7d4c3a8.chunk.css.map": "/iotum-samples/static/css/935.f7d4c3a8.chunk.css.map",
-    "935.4d4ca839.chunk.js.map": "/iotum-samples/static/js/935.4d4ca839.chunk.js.map",
+    "935.e262e28f.chunk.js.map": "/iotum-samples/static/js/935.e262e28f.chunk.js.map",
     "197.193aea79.chunk.css.map": "/iotum-samples/static/css/197.193aea79.chunk.css.map",
-    "197.2d551962.chunk.js.map": "/iotum-samples/static/js/197.2d551962.chunk.js.map",
+    "197.5f57680b.chunk.js.map": "/iotum-samples/static/js/197.5f57680b.chunk.js.map",
     "74.cd3cee51.chunk.js.map": "/iotum-samples/static/js/74.cd3cee51.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b9a730fe.css",
-    "static/js/main.ed22515c.js"
+    "static/js/main.f0dc5243.js"
   ]
 }
