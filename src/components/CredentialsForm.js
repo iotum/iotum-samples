@@ -15,7 +15,7 @@ const CredentialsForm = ({ onSubmit }) => {
 
   return (
     <div className="form-wrapper">
-      <h1 className="title">Iotum Sample Apps</h1>
+      <h1 className="title">iotum Sample Apps</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Domain:
