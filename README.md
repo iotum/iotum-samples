@@ -3,7 +3,7 @@
 ## Overview
 Explore the capabilities of Iotum SDK products through this sample application. Access the app here: [Iotum Sample Apps](https://iotum.github.io/iotum-samples/). 
 
-<h3>Below is a brief introduction of each sample:</h3>
+<h3>Below is a brief description of each sample:</h3>
 <p><strong>Tabbed dashboard</strong>: <a href="https://github.com/iotum/iotum-samples/tree/main/src/pages/tabbed-dashboard">View Sample</a><br>
 This sample shows how to integrate one or more of Iotum's features into your application using tabs. The user lands on the 'parent' application page, which would be a home or calling page, and this has three additional tabs for 'Team Chat', 'Drive', and 'Contacts'. The Iotum applications sit inside tabs to look and feel like part of the parent app. When a user clicks on 'Team Chat' for example, our widget renders.</p>
 
