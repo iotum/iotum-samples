@@ -1,11 +1,11 @@
-# Iotum Sample Apps
+# iotum Sample Apps
 
 ## Overview
-Explore the capabilities of Iotum SDK products through this sample application. Access the app here: [Iotum Sample Apps](https://iotum.github.io/iotum-samples/). 
+Explore the capabilities of iotum SDK products through this sample application. Access the app here: [iotum Sample Apps](https://iotum.github.io/iotum-samples/). 
 
 <h3>Below is a brief description of each sample:</h3>
 <p><strong>Tabbed dashboard</strong>: <a href="https://github.com/iotum/iotum-samples/tree/main/src/pages/tabbed-dashboard">View Sample</a><br>
-This sample shows how to integrate one or more of Iotum's features into your application using tabs. The user lands on the 'parent' application page, which would be a home or calling page, and this has three additional tabs for 'Team Chat', 'Drive', and 'Contacts'. The Iotum applications sit inside tabs to look and feel like part of the parent app. When a user clicks on 'Team Chat' for example, our widget renders.</p>
+This sample shows how to integrate one or more of iotum's features into your application using tabs. The user lands on the 'parent' application page, which would be a home or calling page, and this has three additional tabs for 'Team Chat', 'Drive', and 'Contacts'. The iotum applications sit inside tabs to look and feel like part of the parent app. When a user clicks on 'Team Chat' for example, our widget renders.</p>
 
 <p><strong>Chat room list</strong>: <a href="https://github.com/iotum/iotum-samples/tree/main/src/pages/chat-room-list">View Sample</a><br>
 In this sample, the 'Team Chat' navigation will show as a strip in a narrow sidebar. Users can then select an individual chat 'room' (channel or DM) that will open in a floating window inside their application. The size and location of each floating window can be customized and the sidebar can be hidden or shown as required. This is a very flexible way of integrating the chat widget into another application.</p>
@@ -34,7 +34,7 @@ This app also shows how the parent app can display the number of unread messages
    - For the Simple Meeting Sample App, an access code is required. The access code is the conference number found in the `Meet` dashboard.  
     
 4. **Using the Application**:
-   - Once logged in, you're ready to explore the various features of the Iotum product suite through the Menu page.
+   - Once logged in, you're ready to explore the various features of the iotum product suite through the Menu page.
 
 > **Note:** For guidance on retrieving the SSO Token and Host ID via Postman, refer to the project's [Postman Documentation](https://github.com/iotum/iotum-samples/wiki/Get-SSO-Token-and-Host-ID-from-Postman).
 

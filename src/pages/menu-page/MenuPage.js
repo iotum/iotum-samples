@@ -14,7 +14,7 @@ const Menu = () => {
 
   return (
     <div className="menu-container">
-      <h1>Iotum Sample Apps</h1>
+      <h1>iotum Sample Apps</h1>
       <div className='menu-item'>
         <p className='description'>This sample shows how to integrate one or more of iotum’s features into your application using tabs. The user lands on the ‘parent’ application page, which would be a home or calling page, and this has three additional tabs for ‘Team Chat’, ‘Drive’, and ‘Contacts’. The iotum applications sit inside tabs to look and feel like part of the parent app. When a user clicks on ‘Team Chat’ for example, our widget renders.</p>
         <MenuPageButton text="Tabbed Dashboard" path="/iotum-samples/tabbed-dashboard" />
