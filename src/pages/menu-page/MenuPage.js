@@ -46,6 +46,12 @@ const Menu = () => {
             This sample shows two distinct options. The first is that a user can access ‘Team Chat’ via a button that could be located anywhere on the parent application and have the unread message count synced so that they know if there are new messages to read. The second is that this shows how the widget can pop out into another tab or window where that is the desired user experience. This app also shows how the parent app can display the number of unread messages and keep it up to date.  This unread message badge could be added to a button or tab in the parent app.
           </p>
         </li>
+        <li>
+          <MenuPageButton text="Devices in Meeting" path="/iotum-samples/meeting-devices" />
+          <p>
+            This sample manages the media devices in meeting widget from the host page.
+          </p>
+        </li>
       </menu>
       <TokenButton position="left" />
     </div>

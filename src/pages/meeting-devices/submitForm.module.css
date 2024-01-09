@@ -1,0 +1,97 @@
+/* Styling for the form */
+form {
+  display: inline-block;
+  width: auto;
+  margin-right: 10em;
+  background-color: #f1f1f1;
+  /* Center the form horizontally */
+  padding: 5px 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+/* Styling for the labels */
+label {
+  display: inline-block;
+  width: auto;
+  margin: 0 0.5em;
+}
+
+label span {
+  padding: 0 0.25em;
+}
+
+/* Styling for the inputs */
+input {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Styling for the submit button */
+button[type="submit"] {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+button[type="submit"]:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+.appContainer {
+  height: 100vh;
+}
+
+.accessCodeInput {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}
+
+.startMeetingButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.startMeetingButton:hover {
+  background-color: #0056b3;
+}
+
+.widgetContainer {
+  height: 80%;
+}
+
+.devices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1em;
+  margin: 1em;
+  margin-right: 10em;
+}
+
+.devices select,
+.devices button {
+  font-size: 18px;
+  max-width: 30vw;
+}

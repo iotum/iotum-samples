@@ -14,6 +14,7 @@ const ListWidgetUiApp = React.lazy(() => import('./pages/list-widget-ui/App.js')
 const SimpleMeetingApp = React.lazy(() => import("./pages/simple-meeting/App.js"));
 const PopoutChatApp = React.lazy(() => import("./pages/popout-chat/App.js"));
 const TabbedDashboardApp = React.lazy(() => import("./pages/tabbed-dashboard/App.js"));
+const MeetingDevicesApp = React.lazy(() => import("./pages/meeting-devices/App.js"));
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/iotum-samples/simple-meeting",
     element: <SimpleMeetingApp />
+  },
+  {
+    path: "/iotum-samples/meeting-devices",
+    element: <MeetingDevicesApp />
   },
   {
     path: "/iotum-samples/popout-chat",
