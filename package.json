@@ -16,7 +16,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "set HOST=localhost.callbridge.com&&set HTTPS=true&&react-scripts start",
+    "start": "HTTPS=true react-scripts start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
