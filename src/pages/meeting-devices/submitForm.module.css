@@ -1,5 +1,5 @@
 /* Styling for the form */
-form {
+.form {
   display: inline-block;
   width: auto;
   margin-right: 10em;
@@ -12,18 +12,18 @@ form {
 }
 
 /* Styling for the labels */
-label {
+.form label {
   display: inline-block;
   width: auto;
   margin: 0 0.5em;
 }
 
-label span {
+.form label span {
   padding: 0 0.25em;
 }
 
 /* Styling for the inputs */
-input {
+.form input {
   padding: 8px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -31,7 +31,7 @@ input {
 }
 
 /* Styling for the submit button */
-button[type="submit"] {
+.form button[type="submit"] {
   font-size: 18px;
   font-weight: bold;
   color: #fff;
@@ -43,11 +43,11 @@ button[type="submit"] {
   transition: background-color 0.3s;
 }
 
-button[type="submit"]:hover {
+.form button[type="submit"]:hover {
   background-color: #0056b3;
 }
 
-button[type="submit"]:disabled {
+.form button[type="submit"]:disabled {
   background-color: gray;
   cursor: not-allowed;
 }

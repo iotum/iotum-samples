@@ -130,7 +130,7 @@ const App = () => {
 
   return (
     <div className={styles.appContainer}>
-      <form onSubmit={onSubmit}>
+      <form className={styles.form} onSubmit={onSubmit}>
         <label><span>Access Code:</span>
           <input
             name="accessCode"
