@@ -16,12 +16,12 @@ const loadCredentials = () => {
     }
   } catch (err) {
     console.error("Error loading credentials from localStorage:", err);
-    return {
-      token: null,
-      domain: null,
-      hostId: null
-    };
   }
+  return {
+    token: null,
+    domain: null,
+    hostId: null
+  };
 };
 
 // Initialize state from localStorage
