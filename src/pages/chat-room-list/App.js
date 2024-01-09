@@ -1,18 +1,16 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import ChatRoomList from './ChatRoomList';
 import styles from './submitForm.module.css';
 import * as Callbridge from '@iotum/callbridge-js';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 
-export const App = () => {
+const App = () => {
   useGuardedRoute()
   const [allRooms, setAllRooms] = useState([]);
-  const widget = useRef(null);
-  
+
   // Retrive credentials from Redux store
   const credentials = useSelector(state => state.credentials);
-  console.log("Credentials:", credentials);
 
   const handleRoomButtonClick = (path) => {
     setAllRooms(prevRooms => prevRooms.map(room => {
@@ -27,27 +25,26 @@ export const App = () => {
     }));
   };
 
-  const renderWidget = useCallback(() => {
+  const renderWidget = useCallback(({ domain, token, hostId }) => {
     console.log("renderWidget ran");
-    widget.current = new Callbridge.Dashboard(
+    const _widget = new Callbridge.Dashboard(
       {
-        domain: credentials.domain, // using the state variable for domain
+        domain,
         sso: {
-          token: credentials.token,
-          hostId: credentials.hostId
+          token,
+          hostId
         },
         container: '#chat',
       },
       'Team',
-      { layout: 'list', pathname: '/'}
+      { layout: 'list', pathname: '/' }
     );
-    console.log("dashboard rendered");
 
-    widget.current.once('dashboard.ROOM_LIST', (data) => {
+    _widget.once('dashboard.ROOM_LIST', (data) => {
       const uniqueAccountNames = []; // To keep track of account names that should have "(you)" added
       const allRoomsChange = Object.values(data.rooms).map((room) => {
         const accounts = room.accounts.map((account) => account.name);
-    
+
         // Check if the room has only one account
         if (accounts.length === 1) {
           const accountName = `${accounts[0]} (you)`;
@@ -58,7 +55,7 @@ export const App = () => {
             bool: false,
           };
         }
-    
+
         // Filter out account names that are in the unique list
         const filteredNames = accounts.filter((name) => !uniqueAccountNames.includes(name));
         return {
@@ -67,35 +64,35 @@ export const App = () => {
           bool: false,
         };
       });
-    
+
       setAllRooms(allRoomsChange);
     });
 
-    widget.current.on('dashboard.NAVIGATE', (data) => {
+    _widget.on('dashboard.NAVIGATE', (data) => {
       if (data.pathname !== "/") {
-        widget.current.load("Team", {layout: "list"})
+        _widget.load("Team", { layout: "list" })
         console.log("There was a navigate event to " + data.pathname + " in the list widget and the list widget was reloaded");
-      } 
+      }
 
       handleRoomButtonClick(data.pathname);
-      }
-    )
+    });
 
-    widget.current.on('dashboard.READY', () => {
+    _widget.on('dashboard.READY', () => {
       console.log("The list widget was rendered");
     });
-  }, [credentials]);
+
+    return _widget;
+  }, []);
 
   useEffect(() => {
     if (credentials && credentials.token && credentials.domain && credentials.hostId) {
-      renderWidget(credentials);
-    }
-
-    return () => {
-      widget.current?.unload();
+      const widget = renderWidget(credentials);
+      return () => {
+        widget.unload();
+      }
     }
   }, [credentials, renderWidget]);
- 
+
   return (
     <div className={styles.container}>
       <div id="chat" className={styles.roomListContainer}></div>
@@ -104,7 +101,6 @@ export const App = () => {
       </div>
     </div>
   );
-  
 };
 
 export default App;

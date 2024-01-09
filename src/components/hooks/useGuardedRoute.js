@@ -5,18 +5,18 @@ import { useNavigate } from 'react-router-dom';
 
 const useGuardedRoute = () => {
   const navigate = useNavigate();
-  const credentials = useSelector(state => state.credentials);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { token } = useSelector(state => state.credentials);
+  const [isAuthenticated, setIsAuthenticated] = useState(Boolean(token));
 
   useEffect(() => {
-    if (!credentials.token) {
+    if (!token) {
       navigate('/iotum-samples/error-handling');
       console.log('New credentials input needed');
       setIsAuthenticated(false);
     } else {
       setIsAuthenticated(true);
     }
-  }, [credentials.token, navigate]);
+  }, [token, navigate]);
 
   return isAuthenticated;
 };

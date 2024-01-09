@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import ChatRoomList from './ChatRoomList';
 import * as Callbridge from '@iotum/callbridge-js';
@@ -7,43 +7,35 @@ import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 const App = () => {
   useGuardedRoute()
   const [allRooms, setAllRooms] = useState([]);
-  const widget = useRef(null);
 
   // Retrieve credentials from Redux store
   const credentials = useSelector(state => state.credentials);
 
-  const handleRoomButtonClick = (path) => {
+  const toggleRoom = (path, open) => {
     setAllRooms(prevRooms => prevRooms.map(room => {
-      return room.path === path ? { ...room, bool: true } : room;
+      return room.path === path ? { ...room, bool: open } : room;
     }));
   };
 
-  const handleRoomClose = (path) => {
-    setAllRooms(prevRooms => prevRooms.map(room => {
-      return room.path === path ? { ...room, bool: false } : room;
-    }));
-  };
-
-  // Define the renderWidget function with useCallback
-  const renderWidget = useCallback(() => {
-    widget.current = new Callbridge.Dashboard(
+  const renderWidget = ({ domain, token, hostId }) => {
+    const _widget = new Callbridge.Dashboard(
       {
-        domain: credentials.domain,
+        domain,
         sso: {
-          token: credentials.token,
-          hostId: credentials.hostId
+          token,
+          hostId
         },
         container: '#chat',
       },
       'Team',
-      { layout: 'list', pathname: '/'}
+      { layout: 'list', pathname: '/' }
     );
 
-    widget.current.once('dashboard.ROOM_LIST', (data) => {
+    _widget.once('dashboard.ROOM_LIST', (data) => {
       const uniqueAccountNames = [];
       const allRoomsChange = Object.values(data.rooms).map((room) => {
         const accounts = room.accounts.map((account) => account.name);
-        
+
         if (accounts.length === 1) {
           const accountName = `${accounts[0]} (you)`;
           uniqueAccountNames.push(accounts[0]);
@@ -63,34 +55,36 @@ const App = () => {
       });
 
       setAllRooms(allRoomsChange);
+
+      document.querySelector('#loading')?.remove();
     });
 
-    widget.current.toggle(false);
-  }, [credentials]); 
+    return _widget;
+  };
 
   useEffect(() => {
     if (credentials && credentials.token && credentials.domain && credentials.hostId) {
-      const timer = setTimeout(() => {
-        renderWidget();
-      }, 100); // Delay the widget initialization to ensure the DOM element is available
-  
+      const widget = renderWidget(credentials);
+
+      // NOTE: for whatever reason, calling toggle directly causes StrictMode to unmount the widget container.
+      setTimeout(() => widget.toggle(false));
+
       return () => {
-        clearTimeout(timer);
-        widget.current?.unload();
+        widget.unload();
       };
     }
-  }, [credentials, renderWidget]); // useEffect dependencies
+  }, [credentials]); // useEffect dependencies
 
   return (
     <div>
       <div id="room-buttons">
         <ChatRoomList
           rooms={allRooms}
-          onRoomButtonClick={handleRoomButtonClick}
-          onRoomClose={handleRoomClose}
+          onRoomButtonClick={(path) => toggleRoom(path, true)}
+          onRoomClose={(path) => toggleRoom(path, false)}
         />
       </div>
-      <div id="chat"></div>
+      <div id="chat"><div id="loading">Loading...</div></div>
     </div>
   );
 };

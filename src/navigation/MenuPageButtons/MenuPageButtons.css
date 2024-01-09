@@ -1,17 +1,9 @@
-.menu-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
 .menu-button {
-    width: 202px;
+    width: 200px;
     text-align: center;
     font-size: 18px; 
     font-weight: bold;
-    margin: 55px 0; /* Combining both margin properties you had */
-    padding: 10px 20px;
+    margin: 5px 0; /* Combining both margin properties you had */
     border: none;
     border-radius: 5px;
     background-color: #007bff;
@@ -22,7 +14,7 @@
     line-height: 1.5;
 }
 
-.nav-button:hover {
+.menu-button:hover {
     background-color: #0056b3; /* darken color on hover */
 }
 

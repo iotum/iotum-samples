@@ -5,9 +5,7 @@ const MenuPageButton = ({ text, path }) => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <button className="menu-button" onClick={() => navigate(path)}>{text}</button>
-    </div>
+    <button type="button" className="menu-button" onClick={() => navigate(path)}>{text}</button>
   );
 }
 
