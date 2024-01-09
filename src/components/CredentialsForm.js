@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import './CredentialsForm.css'
 
 const CredentialsForm = ({ onSubmit }) => {
-  const [domain, setDomain] = useState('iotum.callbridge.rocks');
-  const [token, setToken] = useState('');
-  const [hostId, setHostId] = useState('');
+  const credentials = useSelector(state => state.credentials);
+
+  const [domain, setDomain] = useState(credentials.domain || 'iotum.callbridge.rocks');
+  const [token, setToken] = useState(credentials.token || '');
+  const [hostId, setHostId] = useState(credentials.hostId || '');
 
   // This function will be called when the form is submitted
   const handleSubmit = (e) => {
@@ -16,7 +19,7 @@ const CredentialsForm = ({ onSubmit }) => {
   return (
     <div className="form-wrapper">
       <h1 className="title">iotum Sample Apps</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="credentials">
         <label>
           Domain:
           <input
