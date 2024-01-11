@@ -4,7 +4,7 @@ import * as Callbridge from '@iotum/callbridge-js';
 import styles from './chat.module.css';
 
 const ChatRoom = (props) => {
-  const chatContainerRef = useRef(null); 
+  const chatContainerRef = useRef(null);
   const credentials = useSelector(state => state.credentials)
 
   useEffect(() => {
@@ -17,8 +17,11 @@ const ChatRoom = (props) => {
         domain: domain,
         container: chatContainerRef.current, // Use the DOM element reference
       },
-      'Team',
-      { layout: 'main', pathname: props.path }
+      Callbridge.Service.Team,
+      {
+        layout: Callbridge.LayoutOption.main,
+        pathname: props.path
+      }
     );
 
     console.log("A new chat room was opened: " + props.path);
@@ -28,7 +31,7 @@ const ChatRoom = (props) => {
       chatRoom.unload(); // Replace with actual cleanup method if available
       console.log("Chat room was closed: " + props.path);
     };
-  }, [props.path, credentials]); 
+  }, [props.path, credentials]);
 
   // Render the chat container reference
   return <div ref={chatContainerRef} className={styles.chatRoom}></div>;

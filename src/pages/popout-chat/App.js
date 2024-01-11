@@ -31,7 +31,7 @@ const App = () => {
             name: "CallbridgeChatWidget",
             checkExisting: true,
           }
-        }, 'Team');
+        }, Callbridge.Service.Team);
 
         widget.current.on('dashboard.NAVIGATE', (data) => {
           console.log("navigate event");
@@ -59,7 +59,7 @@ const App = () => {
           name: "InvisibleWidget",
           checkExisting: true,
         }
-      }, 'Team');
+      }, Callbridge.Service.Team);
 
       invisibleWidget.on('dashboard.UNREAD_MESSAGES', (data) => {
         const sum = Object.values(data.rooms).reduce((m, n) => m + n, 0);
