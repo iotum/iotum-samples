@@ -157,7 +157,7 @@ const App = () => {
         <select id="audiooutput" onChange={onDeviceChange}><option disabled value="">audio output ...</option></select>
         <select id="videoinput" onChange={onDeviceChange}><option disabled value="">video input ...</option></select>
         {isMuted !== undefined && <button id="toggleMic" type="button" onClick={onToggleMic}>{isMuted ? 'UNMUTE' : 'MUTE'} mic</button>}
-        {isCameraOn !== undefined && <button id="toggleCam" type="button" onClick={onToggleCam}>{isCameraOn ? 'START' : 'STOP'} cam</button>}
+        {isCameraOn !== undefined && <button id="toggleCam" type="button" onClick={onToggleCam}>{isCameraOn ? 'STOP' : 'START'} cam</button>}
       </div>
       <div id="meeting" className={styles.widgetContainer}></div>
     </div>
