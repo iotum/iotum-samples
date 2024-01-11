@@ -48,7 +48,7 @@ const App = () => {
         chatWidgetRef.current = new Callbridge.Dashboard({
           domain: credentials.domain,
           container: containerRef.current,
-        }, "Team");
+        }, Callbridge.Service.Team);
 
         chatWidgetRef.current.toggle(false);
 

@@ -27,8 +27,11 @@ const App = () => {
         },
         container: '#chat',
       },
-      'Team',
-      { layout: 'list', pathname: '/' }
+      Callbridge.Service.Team,
+      {
+        layout: Callbridge.LayoutOption.list,
+        pathname: '/'
+      }
     );
 
     _widget.once('dashboard.ROOM_LIST', (data) => {
