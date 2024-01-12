@@ -1,9 +1,24 @@
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 10px;
+}
+
+#root {
+    height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 .menu-button {
     width: 200px;
     text-align: center;
-    font-size: 18px; 
+    font-size: 18px;
     font-weight: bold;
-    margin: 5px 0; /* Combining both margin properties you had */
+    margin: 5px 0;
+    /* Combining both margin properties you had */
     border: none;
     border-radius: 5px;
     background-color: #007bff;
@@ -15,7 +30,8 @@
 }
 
 .menu-button:hover {
-    background-color: #0056b3; /* darken color on hover */
+    background-color: #0056b3;
+    /* darken color on hover */
 }
 
 ul {

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect, forwardRef } from 'react';
 import styles from './submitForm.module.css';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
@@ -6,75 +6,73 @@ import * as Callbridge from '@iotum/callbridge-js';
 import { useSelector } from 'react-redux';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 
+const Widgets = forwardRef((props, ref) =>
+  <div ref={ref} className={styles.widgetContainer}></div>
+);
+
 const App = () => {
   useGuardedRoute(); // Guard the route
   const [isYourAppVisible, setIsYourAppVisible] = useState(true);
   const [unreadMessages, setUnreadMessages] = useState(0);
-  const [isWidgetInitialized, setIsWidgetInitialized] = useState(false);
+  const [isWidgetInitialized, setWidgetInitialized] = useState(false);
   const [chatWidgetReady, setChatWidgetReady] = useState(false);
 
-  const containerRef = useRef(null);
-  const chatWidgetRef = useRef(null);
-  const widgetRef = useRef(null);
+  /** @type {React.MutableRefObject<HTMLDivElement>} */
+  const containerRef = useRef();
+  /** @type {React.MutableRefObject<Callbridge.Dashboard>} */
+  const chatWidgetRef = useRef();
+  /** @type {React.MutableRefObject<Callbridge.Dashboard>} */
+  const widgetRef = useRef();
 
   const credentials = useSelector(state => state.credentials);
 
-  // Check if all necessary credentials are available
-  const areCredentialsValid = credentials.token && credentials.domain && credentials.hostId;
+  const renderWidget = useCallback((container, { domain, token, hostId }) => {
+    console.log('Widget loading');
 
-  const unloadWidgets = () => {
-    if (widgetRef.current) {
-      widgetRef.current.toggle(false);
-    }
-    if (chatWidgetRef.current) {
+    widgetRef.current = new Callbridge.Dashboard({
+      domain,
+      sso: {
+        token,
+        hostId,
+      },
+      container,
+    });
+
+    widgetRef.current.toggle(false);
+
+    widgetRef.current.on('dashboard.READY', () => {
+      chatWidgetRef.current = new Callbridge.Dashboard({
+        domain,
+        container,
+      }, Callbridge.Service.Team);
+
       chatWidgetRef.current.toggle(false);
-    }
-  };
 
-  const renderWidget = useCallback(() => {
-    if (areCredentialsValid) {
-      widgetRef.current = new Callbridge.Dashboard({
-        domain: credentials.domain,
-        sso: {
-          token: credentials.token,
-          hostId: credentials.hostId,
-        },
-        container: containerRef.current,
+      chatWidgetRef.current.on('dashboard.UNREAD_MESSAGES', (data) => {
+        const totalUnread = Object.values(data.rooms).reduce((total, count) => total + count, 0);
+        setUnreadMessages(totalUnread);
       });
 
-      widgetRef.current.toggle(false);
-
-      widgetRef.current.on('dashboard.READY', () => {
-        chatWidgetRef.current = new Callbridge.Dashboard({
-          domain: credentials.domain,
-          container: containerRef.current,
-        }, Callbridge.Service.Team);
-
-        chatWidgetRef.current.toggle(false);
-
-        chatWidgetRef.current.on('dashboard.UNREAD_MESSAGES', (data) => {
-          const totalUnread = Object.values(data.rooms).reduce((total, count) => total + count, 0);
-          setUnreadMessages(totalUnread);
-        });
-
-        chatWidgetRef.current.on('dashboard.READY', () => {
-          setChatWidgetReady(true);
-          setIsWidgetInitialized(true);
-        });
+      chatWidgetRef.current.on('dashboard.READY', () => {
+        setChatWidgetReady(true);
+        setWidgetInitialized(true);
       });
-    }
-  }, [credentials, areCredentialsValid]);
+    });
+  }, []);
 
   useEffect(() => {
-    if (areCredentialsValid) {
-      renderWidget();
-    }
+    // Check if all necessary credentials are available
+    const areCredentialsValid = credentials.token && credentials.domain && credentials.hostId;
+    if (areCredentialsValid && containerRef.current) {
+      renderWidget(containerRef.current, credentials);
 
-    return () => {
-      unloadWidgets();
-      console.log('Widget unloaded');
-    };
-  }, [credentials, renderWidget, areCredentialsValid]);
+      return () => {
+        widgetRef.current?.unload();
+        chatWidgetRef.current?.unload();
+        console.log('Widget unloaded');
+      };
+    }
+  }, [credentials, renderWidget]);
 
   useEffect(() => {
     if (isWidgetInitialized) {
@@ -85,13 +83,17 @@ const App = () => {
     }
   }, [isWidgetInitialized]);
 
+  /**
+   * @param {Callbridge.Service} service
+   */
   const loadWidget = (service) => {
-    unloadWidgets(); // Unload any currently displayed widgets
+    widgetRef.current?.toggle(false);
+    chatWidgetRef.current?.toggle(false);
 
-    if (service === "") {
+    if (service === Callbridge.Service.None) {
       setIsYourAppVisible(true);
       console.log("Load your app");
-    } else if (service === "Team") {
+    } else if (service === Callbridge.Service.Team) {
       chatWidgetRef.current.toggle(true);
       setIsYourAppVisible(false);
       console.log("Load the team chat widget");
@@ -106,10 +108,14 @@ const App = () => {
   return (
     <div className={styles.appContainer}>
       <div className={styles.verticalTabContainer}>
-        <button onClick={() => loadWidget('')} disabled={!chatWidgetReady}>
+        <button type="button"
+          onClick={() => loadWidget(Callbridge.Service.None)}
+          disabled={!chatWidgetReady}
+        >
           Your App
         </button>
         <button
+          type="button"
           onClick={() => loadWidget('Team')}
           disabled={!chatWidgetReady}
           style={{ position: 'relative' }}
@@ -117,18 +123,33 @@ const App = () => {
           Team Chat
           {unreadMessages > 0 && <span className={styles.badge}>{unreadMessages}</span>}
         </button>
-        <button onClick={() => loadWidget('Drive')} disabled={!chatWidgetReady}>
+        <button
+          type="button"
+          onClick={() => loadWidget(Callbridge.Service.Drive)}
+          disabled={!chatWidgetReady}
+        >
           Drive
         </button>
-        <button onClick={() => loadWidget('Contacts')} disabled={!chatWidgetReady}>
+        <button
+          type="button"
+          onClick={() => loadWidget(Callbridge.Service.Contacts)}
+          disabled={!chatWidgetReady}
+        >
           Contacts
+        </button>
+        <button
+          type="button"
+          onClick={() => loadWidget(Callbridge.Service.Meet)}
+          disabled={!chatWidgetReady}
+        >
+          Meetings
         </button>
       </div>
       {isYourAppVisible && <div>Your app goes here</div>}
       {!chatWidgetReady && <div>The widgets are loading</div>}
-      <div ref={containerRef} className={styles.widgetContainer}></div>
       <TokenButton position='right' />
       <MenuButton position="right" />
+      <Widgets ref={containerRef} />
     </div>
   );
 }

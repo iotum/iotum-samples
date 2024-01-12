@@ -1,5 +1,7 @@
 .appContainer {
-  height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .startButton {
@@ -42,5 +44,5 @@
 }
 
 .widgetContainer {
-  height: 100%;
+  flex-grow: 1;
 }
