@@ -1,27 +1,34 @@
 .menuButton {
-    /* shared styles */
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    border: none;
-    padding: 10px 20px;
-    font-weight: bold;
-    border-radius: 4px;
-    position: absolute; /* absolute positioning */
-    top: 80px; /*Lower than the Token Button */
-    z-index: 10; /* Ensure it's above other elements */
-    width: 120px;
+  /* shared styles */
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 4px;
+  position: fixed; /* positioning */
+  top: 80px; /*Lower than the Token Button */
+  z-index: 10; /* Ensure it's above other elements */
+  width: 120px;
+}
+
+.menuButton:hover {
+  background-color: #0056b3;
+}
+
+.left {
+  left: 40px;
+}
+
+.right {
+  right: 40px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .menuButton {
+    top: auto;
+    bottom: 80px;
   }
-  
-  .menuButton:hover {
-    background-color: #0056b3;
-  }
-  
-  .left {
-    left: 40px;
-  }
-  
-  .right {
-    right: 40px;
-  }
-  
+}

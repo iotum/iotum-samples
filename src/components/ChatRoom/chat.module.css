@@ -53,11 +53,6 @@ button.active {
   position: relative;
 }
 
-/* Hide inactive chat rooms */
-.chatRoomsContainer {
-  display: flex;
-}
-
 /* Additional styles for the close button */
 .closeButton {
   position: absolute;

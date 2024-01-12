@@ -35,6 +35,11 @@
   transition: background-color 0.3s;
 }
 
-.biggerButton:hover {
+.biggerButton:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+.biggerButton:not(:disabled):hover {
   background-color: #0056b3; /* Darker shade on hover */
 }

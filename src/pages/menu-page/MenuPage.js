@@ -53,7 +53,7 @@ const Menu = () => {
           </p>
         </li>
       </menu>
-      <TokenButton position="left" />
+      <TokenButton position="right" />
     </div>
   );
 };

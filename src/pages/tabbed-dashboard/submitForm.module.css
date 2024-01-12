@@ -2,14 +2,17 @@
 .appContainer {
   display: flex;
   flex-direction: row;
-  height: 100vh;
+  height: 100%;
+  gap: 1em;
 }
 
 .verticalTabContainer {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 15%;
+  width: 12em;
+  padding-right: 10px;
+  border-right: 2px solid #f0f0f0;
 }
 
 .verticalTabContainer button {
@@ -32,7 +35,8 @@
 }
 
 .widgetContainer {
-  width: 100%; /* Set the width as a percentage of its container */
+  height: 50%;
+  resize: both;
 }
 
 .badge {

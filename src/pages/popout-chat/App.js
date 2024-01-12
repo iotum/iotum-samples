@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './submitForm.module.css';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
@@ -10,6 +10,7 @@ const App = () => {
   useGuardedRoute(); // Guard the route
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  /** @type {React.MutableRefObject<Callbridge.Dashboard>} */
   const widget = useRef(null);
 
   const credentials = useSelector(state => state.credentials);
@@ -17,48 +18,56 @@ const App = () => {
   // Check if all necessary credentials are available
   const areCredentialsValid = credentials.token && credentials.domain && credentials.hostId;
 
-  const renderChatWidget = useCallback(() => {
+  const renderChatWidget = (onReady) => {
     if (areCredentialsValid) {
-      if (!widget.current || !widget.current.instance) {
+      if (widget.current?.instance) {
+        widget.current.instance.focus();
+        onReady();
+      } else {
+        const { domain, token, hostId } = credentials;
         widget.current = new Callbridge.Dashboard({
-          domain: credentials.domain,
-          sso: {
-            token: credentials.token,
-            hostId: credentials.hostId,
-          },
+          domain,
+          sso: { token, hostId },
           container: window,
           target: {
             name: "CallbridgeChatWidget",
+            features: "width=800,height=600",
             checkExisting: true,
           }
         }, Callbridge.Service.Team);
 
+        widget.current.on('dashboard.READY', onReady);
         widget.current.on('dashboard.NAVIGATE', (data) => {
           console.log("navigate event");
         });
-      } else if (widget.current.instance) {
-        widget.current.instance.focus();
       }
     }
-  }, [credentials, areCredentialsValid]);
+  };
+
+  /** @type {React.MouseEventHandler<HTMLButtonElement>} */
+  const onClick = (ev) => {
+    ev.preventDefault();
+    const { currentTarget: button } = ev;
+
+    button.disabled = true;
+
+    const timer = setTimeout(() => (button.disabled = false), 2e3);
+    renderChatWidget(() => {
+      clearTimeout(timer);
+      button.disabled = false;
+    });
+  };
 
   useEffect(() => {
     if (areCredentialsValid) {
+      // The container is not in DOM
       const hiddenContainer = document.createElement('div');
-      hiddenContainer.style.display = 'none';
-      document.body.appendChild(hiddenContainer);
 
+      const { domain, token, hostId } = credentials;
       const invisibleWidget = new Callbridge.Dashboard({
-        domain: credentials.domain,
-        sso: {
-          token: credentials.token,
-          hostId: credentials.hostId,
-        },
-        container: hiddenContainer,
-        target: {
-          name: "InvisibleWidget",
-          checkExisting: true,
-        }
+        domain,
+        sso: { token, hostId },
+        container: hiddenContainer
       }, Callbridge.Service.Team);
 
       invisibleWidget.on('dashboard.UNREAD_MESSAGES', (data) => {
@@ -72,7 +81,7 @@ const App = () => {
         invisibleWidget?.unload();
       };
     }
-  }, [credentials, areCredentialsValid]);
+  }, [areCredentialsValid, credentials]);
 
   return (
     <>
@@ -83,7 +92,7 @@ const App = () => {
           <div>Loading unread messages...</div>
         ) : (
           <>
-            <button className={styles.biggerButton} onClick={renderChatWidget}>
+            <button type="button" className={styles.biggerButton} onClick={onClick}>
               Chat
             </button>
             <span className={styles.badge}>{unreadMessages}</span>
