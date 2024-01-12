@@ -19,7 +19,7 @@ const Menu = () => {
         <li>
           <MenuPageButton text="Tabbed Dashboard" path="/iotum-samples/tabbed-dashboard" />
           <p>
-            This sample shows how to integrate one or more of iotum’s features into your application using tabs. The user lands on the ‘parent’ application page, which would be a home or calling page, and this has three additional tabs for ‘Team Chat’, ‘Drive’, and ‘Contacts’. The iotum applications sit inside tabs to look and feel like part of the parent app. When a user clicks on ‘Team Chat’ for example, our widget renders.
+            This sample shows how to integrate one or more of iotum’s features into your application using tabs. The user lands on the ‘parent’ application page, which would be a home or calling page, and this has additional tabs for Meetings, ‘Team Chat’, ‘Drive’, and ‘Contacts’. The iotum applications sit inside tabs to look and feel like part of the parent app. When a user clicks on ‘Team Chat’ for example, our widget renders.
           </p>
         </li>
         <li>
@@ -43,13 +43,13 @@ const Menu = () => {
         <li>
           <MenuPageButton text="Popout Chat" path="/iotum-samples/popout-chat" />
           <p>
-            This sample shows two distinct options. The first is that a user can access ‘Team Chat’ via a button that could be located anywhere on the parent application and have the unread message count synced so that they know if there are new messages to read. The second is that this shows how the widget can pop out into another tab or window where that is the desired user experience. This app also shows how the parent app can display the number of unread messages and keep it up to date.  This unread message badge could be added to a button or tab in the parent app.
+            This sample shows two distinct options. The first is that a user can access ‘Team Chat’ via a button that could be located anywhere on the parent application and have the unread message count synced so that they know if there are new messages to read. The second is that this shows how the widget can pop out into another tab or window where that is the desired user experience.
           </p>
         </li>
         <li>
           <MenuPageButton text="Devices in Meeting" path="/iotum-samples/meeting-devices" />
           <p>
-            This sample manages the media devices in meeting widget from the host page.
+            This sample shows how to manage media devices in meeting widget from the host page.
           </p>
         </li>
       </menu>

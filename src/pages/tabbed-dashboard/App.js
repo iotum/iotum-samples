@@ -137,6 +137,13 @@ const App = () => {
         >
           Contacts
         </button>
+        <button
+          type="button"
+          onClick={() => loadWidget(Callbridge.Service.Meet)}
+          disabled={!chatWidgetReady}
+        >
+          Meetings
+        </button>
       </div>
       {isYourAppVisible && <div>Your app goes here</div>}
       {!chatWidgetReady && <div>The widgets are loading</div>}

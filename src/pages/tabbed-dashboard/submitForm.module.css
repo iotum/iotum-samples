@@ -37,6 +37,7 @@
 .widgetContainer {
   height: 50%;
   resize: both;
+  overflow: hidden;
 }
 
 .badge {
