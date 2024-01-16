@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect, forwardRef } from 'react';
+import { useState, useRef, useCallback, useEffect, forwardRef } from 'react';
 import styles from './submitForm.module.css';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
@@ -6,9 +6,9 @@ import * as Callbridge from '@iotum/callbridge-js';
 import { useSelector } from 'react-redux';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 
-const Widgets = forwardRef((props, ref) =>
-  <div ref={ref} className={styles.widgetContainer}></div>
-);
+const Widgets = forwardRef(function Widgets (props, ref) {
+  return <div ref={ref} className={styles.widgetContainer}></div>
+});
 
 const App = () => {
   useGuardedRoute(); // Guard the route
@@ -116,7 +116,7 @@ const App = () => {
         </button>
         <button
           type="button"
-          onClick={() => loadWidget('Team')}
+          onClick={() => loadWidget(Callbridge.Service.Team)}
           disabled={!chatWidgetReady}
           style={{ position: 'relative' }}
         >

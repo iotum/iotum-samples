@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import * as Callbridge from '@iotum/callbridge-js';
 import styles from './chat.module.css';

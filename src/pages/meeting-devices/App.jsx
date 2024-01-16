@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import styles from './submitForm.module.css';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
@@ -63,8 +63,12 @@ const renderWidget = ({ domain, token, hostId, accessCode, muteMic, muteCam }) =
 const App = () => {
   useGuardedRoute();
 
-  const [isCameraOn, setCameraOn] = useState(/** @return {boolean} */() => { });
-  const [isMuted, setMuted] = useState(/** @return {boolean} */() => { });
+  const [isCameraOn, setCameraOn] = useState(
+    /** @return {boolean} */() => undefined
+  );
+  const [isMuted, setMuted] = useState(
+    /** @return {boolean} */() => undefined
+  );
 
   /** @type {React.MutableRefObject<Callbridge.Meeting>} */
   const widget = useRef();

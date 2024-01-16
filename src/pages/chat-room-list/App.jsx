@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import ChatRoomList from './ChatRoomList';
 import styles from './submitForm.module.css';
@@ -73,7 +73,7 @@ const App = () => {
 
     _widget.on('dashboard.NAVIGATE', (data) => {
       if (data.pathname !== "/") {
-        _widget.load("Team", { layout: "list" })
+        _widget.load(Callbridge.Service.Team, { layout: Callbridge.LayoutOption.list })
         console.log("There was a navigate event to " + data.pathname + " in the list widget and the list widget was reloaded");
       }
 

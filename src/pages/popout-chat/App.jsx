@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styles from './submitForm.module.css';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
@@ -37,7 +37,7 @@ const App = () => {
         }, Callbridge.Service.Team);
 
         widget.current.on('dashboard.READY', onReady);
-        widget.current.on('dashboard.NAVIGATE', (data) => {
+        widget.current.on('dashboard.NAVIGATE', () => {
           console.log("navigate event");
         });
       }

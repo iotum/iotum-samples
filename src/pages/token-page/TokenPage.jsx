@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../components/ReduxStore';
 import CredentialsForm from "../../components/CredentialsForm";

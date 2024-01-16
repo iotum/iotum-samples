@@ -1,5 +1,4 @@
 // Menu
-import React from 'react';
 import './MenuPage.css';
 import MenuPageButton from '../../navigation/MenuPageButtons/MenuPageButton';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
