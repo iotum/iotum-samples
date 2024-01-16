@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import './CredentialsForm.css'
 
 const CredentialsForm = ({ onSubmit }) => {
-  const credentials = useSelector(state => state.credentials);
-
-  const [domain, setDomain] = useState(credentials.domain || 'iotum.callbridge.rocks');
-  const [token, setToken] = useState(credentials.token || '');
-  const [hostId, setHostId] = useState(credentials.hostId || '');
+  const { domain, token, hostId } = useSelector(state => state.credentials);
 
   // This function will be called when the form is submitted
+  /** @type {React.FormEventHandler<HTMLFormElement>} */
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const data = new FormData(e.currentTarget);
+
     // Call the passed onSubmit function with the local state values
-    onSubmit({ domain, token, hostId });
+    onSubmit({
+      domain: data.get('domain'),
+      token: data.get('token'),
+      hostId: data.get('hostId'),
+    });
   };
 
   return (
@@ -24,8 +27,8 @@ const CredentialsForm = ({ onSubmit }) => {
           Domain:
           <input
             type="text"
-            value={domain}
-            onChange={(e) => setDomain(e.target.value)}
+            name="domain"
+            defaultValue={domain || 'iotum.callbridge.rocks'}
             required
           />
         </label>
@@ -34,8 +37,8 @@ const CredentialsForm = ({ onSubmit }) => {
           SSO Token:
           <input
             type="text"
-            value={token}
-            onChange={(e) => setToken(e.target.value)}
+            name="token"
+            defaultValue={token || ''}
             required
           />
         </label>
@@ -44,8 +47,8 @@ const CredentialsForm = ({ onSubmit }) => {
           Host ID:
           <input
             type="text"
-            value={hostId}
-            onChange={(e) => setHostId(e.target.value)}
+            name="hostId"
+            defaultValue={hostId || ''}
             required
           />
         </label>

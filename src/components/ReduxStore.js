@@ -31,7 +31,7 @@ const initialState = {
 
 const credentialsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_CREDENTIALS:
+    case SET_CREDENTIALS: {
       const newCredentials = action.payload;
       // Save updated credentials to localStorage
       try {
@@ -42,6 +42,7 @@ const credentialsReducer = (state = initialState, action) => {
         console.error("Error saving data to localStorage", err);
       }
       return { ...state, credentials: newCredentials };
+    }
     default:
       return state;
   }

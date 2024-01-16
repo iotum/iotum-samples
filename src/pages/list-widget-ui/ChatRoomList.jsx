@@ -1,11 +1,24 @@
 import React from 'react';
-import ChatRoom from '../../components/ChatRoom/ChatRoom.js';
+import ChatRoom from '../../components/ChatRoom/ChatRoom';
 import styles from '../../components/ChatRoom/chat.module.css';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
 
-const ChatRoomList = ({ rooms, onRoomClose }) => {
+const ChatRoomList = ({ rooms, onRoomButtonClick, onRoomClose }) => {
   return (
+    <div className={styles.container}>
+      <div className={styles.roomListContainer}>
+        {rooms.map((room) => (
+          <div key={room.path} className={styles.chatRoomItem}>
+            <button
+              onClick={() => onRoomButtonClick(room.path)}
+              className={room.bool ? styles.active : ''}
+            >
+              {room.name}
+            </button>
+          </div>
+        ))}
+      </div>
       <div className={styles.chatRoomsContainer}>
         {rooms.map((room) =>
           room.bool && (
@@ -23,6 +36,7 @@ const ChatRoomList = ({ rooms, onRoomClose }) => {
         <TokenButton position='right'/>
         <MenuButton position="right"/>
       </div>
+    </div>
   );
 };
 
