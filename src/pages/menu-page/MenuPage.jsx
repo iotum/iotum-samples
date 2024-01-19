@@ -1,9 +1,8 @@
-// Menu.js
-import React from 'react';
+// Menu
 import './MenuPage.css';
-import MenuPageButton from '../../navigation/MenuPageButtons/MenuPageButton.js';
-import TokenButton from '../../navigation/TokenButton/TokenButton.js';
-import useGuardedRoute from '../../components/hooks/useGuardedRoute.js';
+import MenuPageButton from '../../navigation/MenuPageButtons/MenuPageButton';
+import TokenButton from '../../navigation/TokenButton/TokenButton';
+import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 
 const Menu = () => {
   const isAuthenticated = useGuardedRoute();

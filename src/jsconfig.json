@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "checkJs": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+    ],
+    "jsx": "react-jsx"
+  },
+  "typeAcquisition": {
+    "enable": true
+  }
+}
