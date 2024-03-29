@@ -6,7 +6,7 @@ import * as Callbridge from '@iotum/callbridge-js';
 import { useSelector } from 'react-redux';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 
-const Widgets = forwardRef(function Widgets (props, ref) {
+const Widgets = forwardRef(function Widgets(props, ref) {
   return <div ref={ref} className={styles.widgetContainer}></div>
 });
 
@@ -16,6 +16,8 @@ const App = () => {
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [isWidgetInitialized, setWidgetInitialized] = useState(false);
   const [chatWidgetReady, setChatWidgetReady] = useState(false);
+  const [service, setService] = useState(Callbridge.Service.None);
+  const [redo, reloadService] = useState(false);
 
   /** @type {React.MutableRefObject<HTMLDivElement>} */
   const containerRef = useRef();
@@ -29,14 +31,33 @@ const App = () => {
   const renderWidget = useCallback((container, { domain, token, hostId }) => {
     console.log('Widget loading');
 
-    widgetRef.current = new Callbridge.Dashboard({
-      domain,
-      sso: {
-        token,
-        hostId,
-      },
-      container,
-    });
+    const createWidget = () => {
+      const widget = new Callbridge.Dashboard({
+        domain,
+        sso: {
+          token,
+          hostId,
+        },
+        container,
+      });
+
+      widget.on('room.READY', () => {
+        console.log('Entered meeting');
+      });
+
+      widget.on('room.UNLOAD', () => {
+        console.log('Left meeting: re-creating widget...');
+        widgetRef.current?.unload();
+        widgetRef.current = createWidget();
+        widgetRef.current.on('dashboard.READY', () => {
+          reloadService(f => !f);
+        });
+      });
+
+      return widget;
+    };
+
+    widgetRef.current = createWidget();
 
     widgetRef.current.toggle(false);
 
@@ -83,10 +104,7 @@ const App = () => {
     }
   }, [isWidgetInitialized]);
 
-  /**
-   * @param {Callbridge.Service} service
-   */
-  const loadWidget = (service) => {
+  useEffect(() => {
     widgetRef.current?.toggle(false);
     chatWidgetRef.current?.toggle(false);
 
@@ -103,20 +121,20 @@ const App = () => {
       setIsYourAppVisible(false);
       console.log(`Load the ${service} widget`);
     }
-  }
+  }, [service, redo]);
 
   return (
     <div className={styles.appContainer}>
       <div className={styles.verticalTabContainer}>
         <button type="button"
-          onClick={() => loadWidget(Callbridge.Service.None)}
+          onClick={() => setService(Callbridge.Service.None)}
           disabled={!chatWidgetReady}
         >
           Your App
         </button>
         <button
           type="button"
-          onClick={() => loadWidget(Callbridge.Service.Team)}
+          onClick={() => setService(Callbridge.Service.Team)}
           disabled={!chatWidgetReady}
           style={{ position: 'relative' }}
         >
@@ -125,21 +143,21 @@ const App = () => {
         </button>
         <button
           type="button"
-          onClick={() => loadWidget(Callbridge.Service.Drive)}
+          onClick={() => setService(Callbridge.Service.Drive)}
           disabled={!chatWidgetReady}
         >
           Drive
         </button>
         <button
           type="button"
-          onClick={() => loadWidget(Callbridge.Service.Contacts)}
+          onClick={() => setService(Callbridge.Service.Contacts)}
           disabled={!chatWidgetReady}
         >
           Contacts
         </button>
         <button
           type="button"
-          onClick={() => loadWidget(Callbridge.Service.Meet)}
+          onClick={() => setService(Callbridge.Service.Meet)}
           disabled={!chatWidgetReady}
         >
           Meetings
