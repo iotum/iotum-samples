@@ -38,7 +38,7 @@ const App = () => {
       },
       Callbridge.Service.Team,
       {
-        layout: Callbridge.LayoutOption.list,
+        layout: Callbridge.LayoutOption.full,
         pathname: '/'
       }
     );
