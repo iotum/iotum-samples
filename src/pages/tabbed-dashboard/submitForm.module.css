@@ -11,24 +11,25 @@
   flex-direction: column;
   align-items: flex-start;
   width: 12em;
+  gap: 1em;
   padding-right: 10px;
   border-right: 2px solid #f0f0f0;
 }
 
 .verticalTabContainer button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%; /* Set the width as a percentage of its container */
-  height: 5%; /* Set the height as a percentage of its container */
+  height: 3em;
   background-color: #f0f0f0;
   border: none;
-  margin-bottom: 2%; /* Add a margin between buttons as a percentage */
+  border-right: 5px solid transparent;
+  border-radius: 2px;
   cursor: pointer;
-  padding: 1%; /* Add padding inside the buttons as a percentage */
   font-size: 80%;
 }
 
+.verticalTabContainer button.active {
+  border-right-color: #0056b3;
+}
 
 .verticalTabContainer button:focus {
   outline: none; /* Remove the default focus outline */

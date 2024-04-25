@@ -21,7 +21,6 @@ const App = () => {
   const renderChatWidget = (onReady) => {
     if (areCredentialsValid) {
       if (widget.current?.instance) {
-        widget.current.instance.focus();
         onReady();
       } else {
         const { domain, token, hostId } = credentials;
@@ -37,8 +36,8 @@ const App = () => {
         }, Callbridge.Service.Team);
 
         widget.current.on('dashboard.READY', onReady);
-        widget.current.on('dashboard.NAVIGATE', () => {
-          console.log("navigate event");
+        widget.current.on('dashboard.NAVIGATE', (ev) => {
+          console.log("navigate event:", ev.service, ev.pathname);
         });
       }
     }
@@ -55,6 +54,7 @@ const App = () => {
     renderChatWidget(() => {
       clearTimeout(timer);
       button.disabled = false;
+      widget.current.instance.focus();
     });
   };
 

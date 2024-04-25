@@ -10,6 +10,28 @@ const Widgets = forwardRef(function Widgets(props, ref) {
   return <div ref={ref} className={styles.widgetContainer}></div>
 });
 
+const TABS = [
+  { svc: Callbridge.Service.None, label: 'Your App', },
+  { svc: Callbridge.Service.Team, label: 'Team Chat', },
+  { svc: Callbridge.Service.Drive, label: 'Drive', },
+  { svc: Callbridge.Service.Contacts, label: 'Contacts', },
+  { svc: Callbridge.Service.Meet, label: 'Meetings', },
+];
+
+const Tab = ({ setService, service, currentService, disabled, children }) => {
+  return (
+    <button
+      type="button"
+      onClick={disabled ? undefined : () => setService(service)}
+      disabled={disabled}
+      className={currentService === service ? styles.active : undefined}
+      style={{ position: 'relative' }}
+    >
+      {children}
+    </button>
+  );
+};
+
 const App = () => {
   useGuardedRoute(); // Guard the route
   const [isYourAppVisible, setIsYourAppVisible] = useState(true);
@@ -62,6 +84,8 @@ const App = () => {
     widgetRef.current.toggle(false);
 
     widgetRef.current.on('dashboard.READY', () => {
+      setWidgetInitialized(true);
+
       chatWidgetRef.current = new Callbridge.Dashboard({
         domain,
         container,
@@ -76,7 +100,6 @@ const App = () => {
 
       chatWidgetRef.current.on('dashboard.READY', () => {
         setChatWidgetReady(true);
-        setWidgetInitialized(true);
       });
     });
   }, []);
@@ -126,45 +149,23 @@ const App = () => {
   return (
     <div className={styles.appContainer}>
       <div className={styles.verticalTabContainer}>
-        <button type="button"
-          onClick={() => setService(Callbridge.Service.None)}
-          disabled={!chatWidgetReady}
-        >
-          Your App
-        </button>
-        <button
-          type="button"
-          onClick={() => setService(Callbridge.Service.Team)}
-          disabled={!chatWidgetReady}
-          style={{ position: 'relative' }}
-        >
-          Team Chat
-          {unreadMessages > 0 && <span className={styles.badge}>{unreadMessages}</span>}
-        </button>
-        <button
-          type="button"
-          onClick={() => setService(Callbridge.Service.Drive)}
-          disabled={!chatWidgetReady}
-        >
-          Drive
-        </button>
-        <button
-          type="button"
-          onClick={() => setService(Callbridge.Service.Contacts)}
-          disabled={!chatWidgetReady}
-        >
-          Contacts
-        </button>
-        <button
-          type="button"
-          onClick={() => setService(Callbridge.Service.Meet)}
-          disabled={!chatWidgetReady}
-        >
-          Meetings
-        </button>
+        {
+          TABS.map(({ svc, label }) => (
+            <Tab
+              key={svc}
+              setService={setService}
+              service={svc}
+              currentService={service}
+              disabled={!(svc === Callbridge.Service.Team ? chatWidgetReady : isWidgetInitialized)}
+            >
+              {label}
+              {svc === Callbridge.Service.Team && <span className={styles.badge}>{unreadMessages}</span>}
+            </Tab>
+          ))
+        }
       </div>
       {isYourAppVisible && <div>Your app goes here</div>}
-      {!chatWidgetReady && <div>The widgets are loading</div>}
+      {!isWidgetInitialized && <div>The widgets are loading</div>}
       <TokenButton position='right' />
       <MenuButton position="right" />
       <Widgets ref={containerRef} />
