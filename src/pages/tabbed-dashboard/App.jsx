@@ -54,6 +54,7 @@ const App = () => {
 
   const renderHideDashboardElementsButton = () => {
     const onHideDashboardElementsClick = () => {
+      // Contact our support team on how to see the list of hidable elements
       setHideDashboardElements([50,51,52,53])
     }
 
