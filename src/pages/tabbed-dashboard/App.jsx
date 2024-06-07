@@ -5,6 +5,7 @@ import MenuButton from '../../navigation/MenuButton/MenuButton';
 import * as Callbridge from '@iotum/callbridge-js';
 import { useSelector } from 'react-redux';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
+import MenuButtonStyles from '../../navigation/MenuButton/MenuButton.module.css';
 
 const Widgets = forwardRef(function Widgets(props, ref) {
   return <div ref={ref} className={styles.widgetContainer}></div>
@@ -40,6 +41,7 @@ const App = () => {
   const [chatWidgetReady, setChatWidgetReady] = useState(false);
   const [service, setService] = useState(Callbridge.Service.None);
   const [redo, reloadService] = useState(false);
+  const [hideDashboardElements, setHideDashboardElements] = useState(undefined);
 
   /** @type {React.MutableRefObject<HTMLDivElement>} */
   const containerRef = useRef();
@@ -49,6 +51,24 @@ const App = () => {
   const widgetRef = useRef();
 
   const credentials = useSelector(state => state.credentials);
+
+  const renderHideDashboardElementsButton = () => {
+    const onHideDashboardElementsClick = () => {
+      // Contact our support team on how to see the list of hidable elements
+      setHideDashboardElements([50,51,52,53])
+    }
+
+    return (
+      <button
+        type="button"
+        className={`${MenuButtonStyles.menuButton} ${MenuButtonStyles.right}`}
+        style={{ top: '130px' }} // why is this hardcoded?
+        onClick={onHideDashboardElementsClick}
+      >
+        Hide Dashboard Elements
+      </button>
+    )
+  }
 
   const renderWidget = useCallback((container, { domain, token, hostId }) => {
     console.log('Widget loading');
@@ -138,13 +158,24 @@ const App = () => {
       chatWidgetRef.current.toggle(true);
       setIsYourAppVisible(false);
       console.log("Load the team chat widget");
+    } else if (service === Callbridge.Service.Meet) {
+      widgetRef.current.toggle(true);
+      if (hideDashboardElements) {
+         // Send in optional hiddenElements to hide the dashboard elements
+         // Change is irreversible and requires reloading the widget to undo
+        widgetRef.current.load(service, { hiddenElements: hideDashboardElements});
+      } else {
+        widgetRef.current.load(service);
+      }
+      setIsYourAppVisible(false);
+      console.log(`Load the Meet widget`);
     } else {
       widgetRef.current.toggle(true);
       widgetRef.current.load(service);
       setIsYourAppVisible(false);
       console.log(`Load the ${service} widget`);
     }
-  }, [service, redo]);
+  }, [service, redo, hideDashboardElements]);
 
   return (
     <div className={styles.appContainer}>
@@ -168,6 +199,7 @@ const App = () => {
       {!isWidgetInitialized && <div>The widgets are loading</div>}
       <TokenButton position='right' />
       <MenuButton position="right" />
+      {service === Callbridge.Service.Meet && !hideDashboardElements && renderHideDashboardElementsButton()}
       <Widgets ref={containerRef} />
     </div>
   );
