@@ -55,18 +55,19 @@ const App = () => {
   const renderHideDashboardElementsButton = () => {
     const onHideDashboardElementsClick = () => {
       // Contact our support team on how to see the list of hidable elements
-      setHideDashboardElements([50,51,52,53])
+      setHideDashboardElements(hideDashboardElements ? undefined : [50, 51, 52, 53]);
     }
 
     return (
-      <button
-        type="button"
-        className={`${MenuButtonStyles.menuButton} ${MenuButtonStyles.right}`}
-        style={{ top: '130px' }} // why is this hardcoded?
-        onClick={onHideDashboardElementsClick}
-      >
-        Hide Dashboard Elements
-      </button>
+      <div>
+        <button
+          type="button"
+          className={`${MenuButtonStyles.menuButton} ${MenuButtonStyles.hideDashboardElementsButton} ${MenuButtonStyles.right}`}
+          onClick={onHideDashboardElementsClick}
+        >
+          {`${hideDashboardElements ? 'Show' : 'Hide'} Dashboard Elements`}
+        </button>
+      </div>
     )
   }
 
@@ -160,13 +161,8 @@ const App = () => {
       console.log("Load the team chat widget");
     } else if (service === Callbridge.Service.Meet) {
       widgetRef.current.toggle(true);
-      if (hideDashboardElements) {
-         // Send in optional hiddenElements to hide the dashboard elements
-         // Change is irreversible and requires reloading the widget to undo
-        widgetRef.current.load(service, { hiddenElements: hideDashboardElements});
-      } else {
-        widgetRef.current.load(service);
-      }
+      // Send in optional hiddenElements to hide the dashboard elements
+      widgetRef.current.load(service, { hiddenElements: []});
       setIsYourAppVisible(false);
       console.log(`Load the Meet widget`);
     } else {
@@ -175,7 +171,11 @@ const App = () => {
       setIsYourAppVisible(false);
       console.log(`Load the ${service} widget`);
     }
-  }, [service, redo, hideDashboardElements]);
+  }, [service, redo]);
+
+  useEffect(() => {
+    widgetRef.current.setHiddenElements(hideDashboardElements);
+  }, [hideDashboardElements]);
 
   return (
     <div className={styles.appContainer}>
@@ -199,7 +199,7 @@ const App = () => {
       {!isWidgetInitialized && <div>The widgets are loading</div>}
       <TokenButton position='right' />
       <MenuButton position="right" />
-      {service === Callbridge.Service.Meet && !hideDashboardElements && renderHideDashboardElementsButton()}
+      {service === Callbridge.Service.Meet && renderHideDashboardElementsButton()}
       <Widgets ref={containerRef} />
     </div>
   );
