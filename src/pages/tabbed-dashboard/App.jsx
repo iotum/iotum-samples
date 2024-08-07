@@ -49,6 +49,8 @@ const App = () => {
   const chatWidgetRef = useRef();
   /** @type {React.MutableRefObject<Callbridge.Dashboard>} */
   const widgetRef = useRef();
+  /** @type {React.MutableRefObject<HTMLSelectElement>} */
+  const selectRef = useRef();
 
   const credentials = useSelector(state => state.credentials);
 
@@ -69,6 +71,28 @@ const App = () => {
         </button>
       </div>
     )
+  }
+  
+  const renderMultiSelect = () => {
+    const onMultiSelectChange = (event) => {
+      const options = Array.from(event.target?.options);
+      const selectedValues = options
+      .filter(option => option.selected)
+      .map(option => Number(option.value));
+  
+      setHideDashboardElements(selectedValues.length > 0 ? selectedValues : undefined);
+    }
+
+    return (
+      <div>
+        <select multiple onChange={onMultiSelectChange} ref={selectRef} className={`${MenuButtonStyles.menuButton} ${MenuButtonStyles.multiSelectHideDashboardElements} ${MenuButtonStyles.right}`}>
+          <option value={50}>50</option>
+          <option value={51}>51</option>
+          <option value={52}>52</option>
+          <option value={53}>53</option>
+        </select>
+      </div>
+    );
   }
 
   const renderWidget = useCallback((container, { domain, token, hostId }) => {
@@ -173,8 +197,16 @@ const App = () => {
     }
   }, [service, redo]);
 
+  // Dynamically update the multi-select based on hideDashboardElements
   useEffect(() => {
-    widgetRef.current.setHiddenElements(hideDashboardElements);
+    widgetRef.current?.setHiddenElements(hideDashboardElements);
+    if (selectRef.current) {
+      Array.from(selectRef.current.options).forEach(option => {
+        option.selected = hideDashboardElements 
+          ? hideDashboardElements.includes(Number(option.value)) 
+          : false;
+      });
+    }
   }, [hideDashboardElements]);
 
   return (
@@ -200,6 +232,7 @@ const App = () => {
       <TokenButton position='right' />
       <MenuButton position="right" />
       {service === Callbridge.Service.Meet && renderHideDashboardElementsButton()}
+      {service === Callbridge.Service.Meet && renderMultiSelect()}
       <Widgets ref={containerRef} />
     </div>
   );
