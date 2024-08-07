@@ -197,9 +197,10 @@ const App = () => {
     }
   }, [service, redo]);
 
-  // Dynamically update the multi-select based on hideDashboardElements
+  // Send the changed hidden elements to the SDK
   useEffect(() => {
     widgetRef.current?.setHiddenElements(hideDashboardElements);
+    // Dynamically update the multi-select based on hideDashboardElements
     if (selectRef.current) {
       Array.from(selectRef.current.options).forEach(option => {
         option.selected = hideDashboardElements 
