@@ -53,20 +53,13 @@ const App = () => {
   const selectRef = useRef();
 
   const credentials = useSelector(state => state.credentials);
+  const selectableHiddenElements = [50, 51, 52, 53];
 
   const renderHideDashboardElementsButton = () => {
     const onHideDashboardElementsClick = () => {
       // Contact our support team on how to see the list of hidable elements
-      const selectedValues = hideDashboardElements ? undefined : [50, 51, 52, 53];
+      const selectedValues = hideDashboardElements ? undefined : selectableHiddenElements;
       setHideDashboardElements(selectedValues);
-      // Dynamically update the multi-select based on hideDashboardElements
-      if (selectRef.current) {
-        Array.from(selectRef.current.options).forEach(option => {
-          option.selected = selectedValues
-            ? selectedValues.includes(Number(option.value))
-            : false;
-        });
-      }
     }
 
     return (
@@ -95,10 +88,11 @@ const App = () => {
     return (
       <div>
         <select multiple onChange={onMultiSelectChange} ref={selectRef} className={`${MenuButtonStyles.menuButton} ${MenuButtonStyles.multiSelectHideDashboardElements} ${MenuButtonStyles.right}`}>
-          <option value={50}>50</option>
-          <option value={51}>51</option>
-          <option value={52}>52</option>
-          <option value={53}>53</option>
+        {selectableHiddenElements.map(value => (
+          <option key={value} value={value} selected={hideDashboardElements ? hideDashboardElements.includes(value) : false}>
+            {value}
+          </option>
+        ))}
         </select>
       </div>
     );
