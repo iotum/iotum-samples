@@ -49,25 +49,53 @@ const App = () => {
   const chatWidgetRef = useRef();
   /** @type {React.MutableRefObject<Callbridge.Dashboard>} */
   const widgetRef = useRef();
+  /** @type {React.MutableRefObject<HTMLSelectElement>} */
+  const selectRef = useRef();
 
   const credentials = useSelector(state => state.credentials);
+  const selectableHiddenElements = [50, 51, 52, 53];
 
   const renderHideDashboardElementsButton = () => {
     const onHideDashboardElementsClick = () => {
       // Contact our support team on how to see the list of hidable elements
-      setHideDashboardElements([50,51,52,53])
+      const selectedValues = hideDashboardElements ? undefined : selectableHiddenElements;
+      setHideDashboardElements(selectedValues);
     }
 
     return (
-      <button
-        type="button"
-        className={`${MenuButtonStyles.menuButton} ${MenuButtonStyles.right}`}
-        style={{ top: '130px' }} // why is this hardcoded?
-        onClick={onHideDashboardElementsClick}
-      >
-        Hide Dashboard Elements
-      </button>
+      <div>
+        <button
+          type="button"
+          className={`${MenuButtonStyles.menuButton} ${MenuButtonStyles.hideDashboardElementsButton} ${MenuButtonStyles.right}`}
+          onClick={onHideDashboardElementsClick}
+        >
+          {`${hideDashboardElements ? 'Show' : 'Hide'} Dashboard Elements`}
+        </button>
+      </div>
     )
+  }
+  
+  const renderMultiSelect = () => {
+    const onMultiSelectChange = (event) => {
+      const options = Array.from(event.target?.options);
+      const selectedValues = options
+      .filter(option => option.selected)
+      .map(option => Number(option.value));
+  
+      setHideDashboardElements(selectedValues.length > 0 ? selectedValues : undefined);
+    }
+
+    return (
+      <div>
+        <select multiple onChange={onMultiSelectChange} ref={selectRef} className={`${MenuButtonStyles.menuButton} ${MenuButtonStyles.multiSelectHideDashboardElements} ${MenuButtonStyles.right}`}>
+        {selectableHiddenElements.map(value => (
+          <option key={value} value={value} selected={hideDashboardElements ? hideDashboardElements.includes(value) : false}>
+            {value}
+          </option>
+        ))}
+        </select>
+      </div>
+    );
   }
 
   const renderWidget = useCallback((container, { domain, token, hostId }) => {
@@ -160,13 +188,8 @@ const App = () => {
       console.log("Load the team chat widget");
     } else if (service === Callbridge.Service.Meet) {
       widgetRef.current.toggle(true);
-      if (hideDashboardElements) {
-         // Send in optional hiddenElements to hide the dashboard elements
-         // Change is irreversible and requires reloading the widget to undo
-        widgetRef.current.load(service, { hiddenElements: hideDashboardElements});
-      } else {
-        widgetRef.current.load(service);
-      }
+      // Send in optional hiddenElements to hide the dashboard elements
+      widgetRef.current.load(service, { hiddenElements: []});
       setIsYourAppVisible(false);
       console.log(`Load the Meet widget`);
     } else {
@@ -175,7 +198,12 @@ const App = () => {
       setIsYourAppVisible(false);
       console.log(`Load the ${service} widget`);
     }
-  }, [service, redo, hideDashboardElements]);
+  }, [service, redo]);
+
+  // Send the changed hidden elements to the SDK
+  useEffect(() => {
+    widgetRef.current?.setHiddenElements(hideDashboardElements);
+  }, [hideDashboardElements]);
 
   return (
     <div className={styles.appContainer}>
@@ -199,7 +227,8 @@ const App = () => {
       {!isWidgetInitialized && <div>The widgets are loading</div>}
       <TokenButton position='right' />
       <MenuButton position="right" />
-      {service === Callbridge.Service.Meet && !hideDashboardElements && renderHideDashboardElementsButton()}
+      {service === Callbridge.Service.Meet && renderHideDashboardElementsButton()}
+      {service === Callbridge.Service.Meet && renderMultiSelect()}
       <Widgets ref={containerRef} />
     </div>
   );

@@ -13,6 +13,21 @@
   width: 120px;
 }
 
+.hideDashboardElementsButton {
+  top: 130px;
+}
+
+.menuButton.multiSelectHideDashboardElements {
+  top: 210px;
+  background-color: unset;
+  color: unset;
+  text-align: center;
+}
+
+.menuButton.multiSelectHideDashboardElements:hover {
+  background-color: unset;
+}
+
 .menuButton:hover {
   background-color: #0056b3;
 }
@@ -30,5 +45,15 @@
   .menuButton {
     top: auto;
     bottom: 80px;
+  }
+
+  .menuButton.hideDashboardElementsButton {
+    top: auto;
+    bottom: 130px;
+  }
+
+  .menuButton.multiSelectHideDashboardElements {
+    top: auto;
+    bottom: 210px;
   }
 }
