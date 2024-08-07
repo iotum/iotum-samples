@@ -57,7 +57,16 @@ const App = () => {
   const renderHideDashboardElementsButton = () => {
     const onHideDashboardElementsClick = () => {
       // Contact our support team on how to see the list of hidable elements
-      setHideDashboardElements(hideDashboardElements ? undefined : [50, 51, 52, 53]);
+      const selectedValues = hideDashboardElements ? undefined : [50, 51, 52, 53];
+      setHideDashboardElements(selectedValues);
+      // Dynamically update the multi-select based on hideDashboardElements
+      if (selectRef.current) {
+        Array.from(selectRef.current.options).forEach(option => {
+          option.selected = selectedValues
+            ? selectedValues.includes(Number(option.value))
+            : false;
+        });
+      }
     }
 
     return (
@@ -200,14 +209,6 @@ const App = () => {
   // Send the changed hidden elements to the SDK
   useEffect(() => {
     widgetRef.current?.setHiddenElements(hideDashboardElements);
-    // Dynamically update the multi-select based on hideDashboardElements
-    if (selectRef.current) {
-      Array.from(selectRef.current.options).forEach(option => {
-        option.selected = hideDashboardElements 
-          ? hideDashboardElements.includes(Number(option.value)) 
-          : false;
-      });
-    }
   }, [hideDashboardElements]);
 
   return (
