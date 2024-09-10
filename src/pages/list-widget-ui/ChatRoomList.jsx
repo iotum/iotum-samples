@@ -3,7 +3,7 @@ import styles from '../../components/ChatRoom/chat.module.css';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
 
-const ChatRoomList = ({ rooms, onRoomButtonClick, onRoomClose }) => {
+const ChatRoomList = ({ rooms, onRoomButtonClick, onRoomClose, children }) => {
   return (
     <div className={styles.container}>
       <div className={styles.roomListContainer}>
@@ -34,6 +34,7 @@ const ChatRoomList = ({ rooms, onRoomButtonClick, onRoomClose }) => {
         )}
         <TokenButton position='right'/>
         <MenuButton position="right"/>
+        {children}
       </div>
     </div>
   );

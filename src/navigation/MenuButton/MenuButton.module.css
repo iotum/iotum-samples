@@ -14,14 +14,17 @@
 }
 
 .hideDashboardElementsButton {
-  top: 130px;
+  top: auto;
 }
 
 .menuButton.multiSelectHideDashboardElements {
-  top: 210px;
+  position: inherit;
+  top: auto;
   background-color: unset;
   color: unset;
   text-align: center;
+  border: 1px solid #007bff;
+  font-size: 1.5em;
 }
 
 .menuButton.multiSelectHideDashboardElements:hover {
@@ -40,6 +43,21 @@
   right: 40px;
 }
 
+.extraMenu {
+  position: fixed;
+  top: 150px;
+  right: 40px; /* same as .right */
+  width: 120px; /* same as .menuButton */
+  z-index: 10; /* Ensure it's above other elements */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.extraMenu .menuButton {
+  position: inherit;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .menuButton {
@@ -47,13 +65,18 @@
     bottom: 80px;
   }
 
-  .menuButton.hideDashboardElementsButton {
+  .extraMenu {
     top: auto;
-    bottom: 130px;
+    bottom: 30px;
+    right: 180px;
+    width: 160px;
+  }
+
+  .extraMenu .menuButton {
+    width: 160px;
   }
 
   .menuButton.multiSelectHideDashboardElements {
-    top: auto;
-    bottom: 210px;
+    font-size: 1em;
   }
 }

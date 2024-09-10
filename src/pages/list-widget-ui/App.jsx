@@ -1,20 +1,35 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import ChatRoomList from './ChatRoomList';
 import * as Callbridge from '@iotum/callbridge-js';
+import LoadingWidget from '../../components/LoadingWidget';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
+import OpenFullAppButton from '../../components/OpenFullAppButton';
+import MenuButtonStyles from '../../navigation/MenuButton/MenuButton.module.css';
 
 const App = () => {
   useGuardedRoute()
-  const [allRooms, setAllRooms] = useState([]);
+
+  const location = useLocation();
+
+  const [allRooms, setAllRooms] = useState(
+    /** @returns {Array} */
+    () => JSON.parse(decodeURI(location.hash.slice(1)) || '[]').map(path => ({ path, bool: true }))
+  );
 
   // Retrieve credentials from Redux store
   const credentials = useSelector(state => state.credentials);
 
   const toggleRoom = (path, open) => {
-    setAllRooms(prevRooms => prevRooms.map(room => {
-      return room.path === path ? { ...room, bool: open } : room;
-    }));
+    setAllRooms(prevRooms => {
+      const rooms = prevRooms.map(room => {
+        return room.path === path ? { ...room, bool: open } : room;
+      });
+      const openRooms = rooms.filter(room => room.bool).map(room => room.path);
+      window.history.pushState(null, '', '#' + (openRooms.length ? JSON.stringify(openRooms) : ''));
+      return rooms;
+    });
   };
 
   const renderWidget = ({ domain, token, hostId }) => {
@@ -57,7 +72,14 @@ const App = () => {
         };
       });
 
-      setAllRooms(allRoomsChange);
+      setAllRooms(
+        prevRooms => allRoomsChange.map(
+          room => ({
+            ...room,
+            bool: Boolean(prevRooms.find(prevRoom => prevRoom.path === room.path))
+          })
+        )
+      );
 
       document.querySelector('#loading')?.remove();
     });
@@ -85,9 +107,13 @@ const App = () => {
           rooms={allRooms}
           onRoomButtonClick={(path) => toggleRoom(path, true)}
           onRoomClose={(path) => toggleRoom(path, false)}
-        />
+        >
+          <div className={MenuButtonStyles.extraMenu}>
+            <OpenFullAppButton origin={`https://${credentials.domain}`} />
+          </div>
+        </ChatRoomList>
       </div>
-      <div id="chat"><div id="loading">Loading...</div></div>
+      <div id="chat"><LoadingWidget id="loading" /></div>
     </div>
   );
 };

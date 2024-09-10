@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import styles from './submitForm.module.css';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
+import LoadingWidget from '../../components/LoadingWidget';
 import * as Callbridge from '@iotum/callbridge-js';
 import { useSelector } from 'react-redux';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
@@ -89,7 +90,7 @@ const App = () => {
       <MenuButton position="right" />
       <div className={styles.chatContainer}>
         {isLoading ? (
-          <div>Loading unread messages...</div>
+          <LoadingWidget>Loading unread messages</LoadingWidget>
         ) : (
           <>
             <button type="button" className={styles.biggerButton} onClick={onClick}>

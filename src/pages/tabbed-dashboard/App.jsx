@@ -1,15 +1,14 @@
-import { useState, useRef, useCallback, useEffect, forwardRef } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styles from './submitForm.module.css';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
+import LoadingWidget from '../../components/LoadingWidget';
+import OpenFullAppButton from '../../components/OpenFullAppButton';
 import * as Callbridge from '@iotum/callbridge-js';
 import { useSelector } from 'react-redux';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 import MenuButtonStyles from '../../navigation/MenuButton/MenuButton.module.css';
-
-const Widgets = forwardRef(function Widgets(props, ref) {
-  return <div ref={ref} className={styles.widgetContainer}></div>
-});
 
 const TABS = [
   { svc: Callbridge.Service.None, label: 'Your App', },
@@ -33,13 +32,68 @@ const Tab = ({ setService, service, currentService, disabled, children }) => {
   );
 };
 
+const HIDDEN_ELEMENT_IDS = [50, 51, 52, 53];
+
+const HiddenAllElementsButton = ({ hideDashboardElements, setHideDashboardElements }) => {
+  const onHideDashboardElementsClick = () => {
+    // Contact our support team on how to see the list of hidable elements
+    const selectedValues = hideDashboardElements ? undefined : HIDDEN_ELEMENT_IDS;
+    setHideDashboardElements(selectedValues);
+  }
+
+  return (
+    <div>
+      <button
+        type="button"
+        className={`${MenuButtonStyles.menuButton} ${MenuButtonStyles.hideDashboardElementsButton}`}
+        onClick={onHideDashboardElementsClick}
+      >
+        {`${hideDashboardElements ? 'Show' : 'Hide'} Dashboard Elements`}
+      </button>
+    </div>
+  )
+}
+
+const MultiSelect = ({ hideDashboardElements, setHideDashboardElements }) => {
+  const onMultiSelectChange = (event) => {
+    const options = Array.from(event.target?.options);
+    const selectedValues = options
+      .filter(option => option.selected)
+      .map(option => Number(option.value));
+
+    setHideDashboardElements(selectedValues.length > 0 ? selectedValues : undefined);
+  }
+
+  return (
+    <div>
+      <select
+        multiple
+        onChange={onMultiSelectChange}
+        value={hideDashboardElements || []}
+        className={`${MenuButtonStyles.menuButton} ${MenuButtonStyles.multiSelectHideDashboardElements}`}
+      >
+        {HIDDEN_ELEMENT_IDS.map(value => (<option key={value} value={value}>{value}</option>))}
+      </select>
+    </div>
+  );
+};
+
 const App = () => {
   useGuardedRoute(); // Guard the route
+
+  const location = useLocation();
+
   const [isYourAppVisible, setIsYourAppVisible] = useState(true);
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [isWidgetInitialized, setWidgetInitialized] = useState(false);
   const [chatWidgetReady, setChatWidgetReady] = useState(false);
-  const [service, setService] = useState(Callbridge.Service.None);
+  const [service, setService] = useState(() => {
+    const s = location.hash.slice(1);
+    if (s in Callbridge.Service) {
+      return Callbridge.Service[s];
+    }
+    return Callbridge.Service.None;
+  });
   const [redo, reloadService] = useState(false);
   const [hideDashboardElements, setHideDashboardElements] = useState(undefined);
 
@@ -49,59 +103,13 @@ const App = () => {
   const chatWidgetRef = useRef();
   /** @type {React.MutableRefObject<Callbridge.Dashboard>} */
   const widgetRef = useRef();
-  /** @type {React.MutableRefObject<HTMLSelectElement>} */
-  const selectRef = useRef();
 
   const credentials = useSelector(state => state.credentials);
-  const selectableHiddenElements = [50, 51, 52, 53];
 
-  const renderHideDashboardElementsButton = () => {
-    const onHideDashboardElementsClick = () => {
-      // Contact our support team on how to see the list of hidable elements
-      const selectedValues = hideDashboardElements ? undefined : selectableHiddenElements;
-      setHideDashboardElements(selectedValues);
-    }
-
-    return (
-      <div>
-        <button
-          type="button"
-          className={`${MenuButtonStyles.menuButton} ${MenuButtonStyles.hideDashboardElementsButton} ${MenuButtonStyles.right}`}
-          onClick={onHideDashboardElementsClick}
-        >
-          {`${hideDashboardElements ? 'Show' : 'Hide'} Dashboard Elements`}
-        </button>
-      </div>
-    )
-  }
-  
-  const renderMultiSelect = () => {
-    const onMultiSelectChange = (event) => {
-      const options = Array.from(event.target?.options);
-      const selectedValues = options
-      .filter(option => option.selected)
-      .map(option => Number(option.value));
-  
-      setHideDashboardElements(selectedValues.length > 0 ? selectedValues : undefined);
-    }
-
-    return (
-      <div>
-        <select multiple onChange={onMultiSelectChange} ref={selectRef} className={`${MenuButtonStyles.menuButton} ${MenuButtonStyles.multiSelectHideDashboardElements} ${MenuButtonStyles.right}`}>
-        {selectableHiddenElements.map(value => (
-          <option key={value} value={value} selected={hideDashboardElements ? hideDashboardElements.includes(value) : false}>
-            {value}
-          </option>
-        ))}
-        </select>
-      </div>
-    );
-  }
-
-  const renderWidget = useCallback((container, { domain, token, hostId }) => {
+  const renderWidget = useCallback((container, { domain, token, hostId }, initService) => {
     console.log('Widget loading');
 
-    const createWidget = () => {
+    const createWidget = (svc) => {
       const widget = new Callbridge.Dashboard({
         domain,
         sso: {
@@ -109,7 +117,7 @@ const App = () => {
           hostId,
         },
         container,
-      });
+      }, svc);
 
       widget.on('room.READY', () => {
         console.log('Entered meeting');
@@ -127,7 +135,7 @@ const App = () => {
       return widget;
     };
 
-    widgetRef.current = createWidget();
+    widgetRef.current = createWidget(initService);
 
     widgetRef.current.toggle(false);
 
@@ -156,7 +164,7 @@ const App = () => {
     // Check if all necessary credentials are available
     const areCredentialsValid = credentials.token && credentials.domain && credentials.hostId;
     if (areCredentialsValid && containerRef.current) {
-      renderWidget(containerRef.current, credentials);
+      renderWidget(containerRef.current, credentials, service);
 
       return () => {
         widgetRef.current?.unload();
@@ -164,6 +172,8 @@ const App = () => {
         console.log('Widget unloaded');
       };
     }
+    // initial service only
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [credentials, renderWidget]);
 
   useEffect(() => {
@@ -179,31 +189,38 @@ const App = () => {
     widgetRef.current?.toggle(false);
     chatWidgetRef.current?.toggle(false);
 
+    setIsYourAppVisible(service === Callbridge.Service.None);
     if (service === Callbridge.Service.None) {
-      setIsYourAppVisible(true);
       console.log("Load your app");
-    } else if (service === Callbridge.Service.Team) {
+      window.history.pushState(null, '', '#');
+      return;
+    }
+    
+    if (service === Callbridge.Service.Team) {
       chatWidgetRef.current.toggle(true);
-      setIsYourAppVisible(false);
       console.log("Load the team chat widget");
     } else if (service === Callbridge.Service.Meet) {
       widgetRef.current.toggle(true);
       // Send in optional hiddenElements to hide the dashboard elements
-      widgetRef.current.load(service, { hiddenElements: []});
-      setIsYourAppVisible(false);
+      widgetRef.current.load(service, { hiddenElements: [] });
       console.log(`Load the Meet widget`);
     } else {
       widgetRef.current.toggle(true);
       widgetRef.current.load(service);
-      setIsYourAppVisible(false);
       console.log(`Load the ${service} widget`);
     }
+    window.history.pushState(null, '', `#${Callbridge.Service[service]}`);
   }, [service, redo]);
 
   // Send the changed hidden elements to the SDK
   useEffect(() => {
     widgetRef.current?.setHiddenElements(hideDashboardElements);
   }, [hideDashboardElements]);
+
+  const containerClassName = [
+    styles.widgetContainer,
+    service !== Callbridge.Service.None && styles.bordered
+  ].filter(Boolean).join(' ');
 
   return (
     <div className={styles.appContainer}>
@@ -222,14 +239,17 @@ const App = () => {
             </Tab>
           ))
         }
+        {!isWidgetInitialized && <LoadingWidget />}
       </div>
-      {isYourAppVisible && <div>Your app goes here</div>}
-      {!isWidgetInitialized && <div>The widgets are loading</div>}
+      {isYourAppVisible && (<div>Your app goes here</div>)}
       <TokenButton position='right' />
       <MenuButton position="right" />
-      {service === Callbridge.Service.Meet && renderHideDashboardElementsButton()}
-      {service === Callbridge.Service.Meet && renderMultiSelect()}
-      <Widgets ref={containerRef} />
+      <div className={MenuButtonStyles.extraMenu}>
+        {service === Callbridge.Service.Meet && <HiddenAllElementsButton hideDashboardElements={hideDashboardElements} setHideDashboardElements={setHideDashboardElements} />}
+        {service === Callbridge.Service.Meet && <MultiSelect hideDashboardElements={hideDashboardElements} setHideDashboardElements={setHideDashboardElements} />}
+        {widgetRef.current && <OpenFullAppButton origin={`https://${credentials.domain}`} />}
+      </div>
+      <div ref={containerRef} className={containerClassName}></div>
     </div>
   );
 }
