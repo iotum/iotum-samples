@@ -41,6 +41,10 @@
   overflow: hidden;
 }
 
+.widgetContainer.bordered {
+  outline: 1px dotted #606060;
+}
+
 .badge {
   position: absolute;
   top: 1px;
