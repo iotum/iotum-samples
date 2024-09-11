@@ -9,6 +9,9 @@ import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 
 const App = () => {
   useGuardedRoute(); // Guard the route
+
+  const [error, setError] = useState('');
+
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   /** @type {React.MutableRefObject<Callbridge.Dashboard>} */
@@ -77,6 +80,11 @@ const App = () => {
         setIsLoading(false);
       });
 
+      invisibleWidget.on('widget.ERROR', (error) => {
+        console.error('Widget error:', error);
+        setError(JSON.stringify(error));
+      });
+
       return () => {
         widget.current?.unload();
         invisibleWidget?.unload();
@@ -90,7 +98,7 @@ const App = () => {
       <MenuButton position="right" />
       <div className={styles.chatContainer}>
         {isLoading ? (
-          <LoadingWidget>Loading unread messages</LoadingWidget>
+          <LoadingWidget error={error}>Loading unread messages</LoadingWidget>
         ) : (
           <>
             <button type="button" className={styles.biggerButton} onClick={onClick}>
