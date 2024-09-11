@@ -116,7 +116,7 @@ const App = () => {
           onRoomClose={(path) => toggleRoom(path, false)}
         >
           <div className={MenuButtonStyles.extraMenu}>
-            <OpenFullAppButton origin={`https://${credentials.domain}`} />
+            <OpenFullAppButton {...credentials} />
           </div>
         </ChatRoomList>
       </div>

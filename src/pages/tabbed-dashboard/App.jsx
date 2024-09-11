@@ -253,7 +253,7 @@ const App = () => {
       <div className={MenuButtonStyles.extraMenu}>
         {service === Callbridge.Service.Meet && <HiddenAllElementsButton hideDashboardElements={hideDashboardElements} setHideDashboardElements={setHideDashboardElements} />}
         {service === Callbridge.Service.Meet && <MultiSelect hideDashboardElements={hideDashboardElements} setHideDashboardElements={setHideDashboardElements} />}
-        {widgetRef.current && <OpenFullAppButton origin={`https://${credentials.domain}`} />}
+        {widgetRef.current && <OpenFullAppButton {...credentials} />}
       </div>
       <div ref={containerRef} className={containerClassName}></div>
     </div>
