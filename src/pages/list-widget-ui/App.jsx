@@ -13,6 +13,8 @@ const App = () => {
 
   const location = useLocation();
 
+  const [error, setError] = useState('');
+
   const [allRooms, setAllRooms] = useState(
     /** @returns {Array} */
     () => JSON.parse(decodeURI(location.hash.slice(1)) || '[]').map(path => ({ path, bool: true }))
@@ -48,6 +50,11 @@ const App = () => {
         pathname: '/'
       }
     );
+
+    _widget.on('widget.ERROR', (error) => {
+      console.error('Widget error:', error);
+      setError(JSON.stringify(error));
+    });
 
     _widget.once('dashboard.ROOM_LIST', (data) => {
       const uniqueAccountNames = [];
@@ -113,7 +120,7 @@ const App = () => {
           </div>
         </ChatRoomList>
       </div>
-      <div id="chat"><LoadingWidget id="loading" /></div>
+      <div id="chat"><LoadingWidget id="loading" error={error} /></div>
     </div>
   );
 };

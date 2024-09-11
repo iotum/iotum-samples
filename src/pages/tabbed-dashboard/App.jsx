@@ -83,6 +83,7 @@ const App = () => {
 
   const location = useLocation();
 
+  const [error, setError] = useState('');
   const [isYourAppVisible, setIsYourAppVisible] = useState(true);
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [isWidgetInitialized, setWidgetInitialized] = useState(false);
@@ -130,6 +131,11 @@ const App = () => {
         widgetRef.current.on('dashboard.READY', () => {
           reloadService(f => !f);
         });
+      });
+
+      widget.on('widget.ERROR', (error) => {
+        console.error('Widget error:', error);
+        setError(JSON.stringify(error));
       });
 
       return widget;
@@ -239,7 +245,7 @@ const App = () => {
             </Tab>
           ))
         }
-        {!isWidgetInitialized && <LoadingWidget />}
+        {!isWidgetInitialized && <LoadingWidget error={error} />}
       </div>
       {isYourAppVisible && (<div>Your app goes here</div>)}
       <TokenButton position='right' />
