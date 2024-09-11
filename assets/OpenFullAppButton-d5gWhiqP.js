@@ -1,1 +1,0 @@
-import{j as t}from"./index-UiNu7bxT.js";import{a as o}from"./MenuButton-5YESuwXf.js";const r=({origin:n})=>t.jsx("div",{children:t.jsx("button",{type:"button",className:o.menuButton,onClick:()=>window.open(`${n}/conf/conferences/create`,"portal"),children:"open full app"})});export{r as O};
