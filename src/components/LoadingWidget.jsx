@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const LoadingWidget = ({ id = undefined, className = undefined, error = undefined, children = undefined }) => {
+const LoadingWidget = ({ id = undefined, className = undefined, error = undefined, isLoading = true, children = undefined }) => {
   const [time, setTime] = useState(1);
 
   useEffect(() => {
@@ -10,6 +10,10 @@ const LoadingWidget = ({ id = undefined, className = undefined, error = undefine
     const interval = setInterval(() => setTime(t => t % 3 + 1), 500);
     return () => clearInterval(interval);
   }, [error]);
+
+  if (!isLoading && !error) {
+    return null;
+  }
 
   return (
     <div id={id} className={className}>
