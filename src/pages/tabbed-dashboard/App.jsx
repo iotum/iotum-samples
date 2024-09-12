@@ -133,7 +133,13 @@ const App = () => {
         });
       });
 
+      widget.on('dashboard.SESSION_EXPIRED', () => {
+        console.error('Widget error:', 'Session expired');
+        setError('Session expired');
+      });
+
       widget.on('widget.ERROR', (error) => {
+        // e.g. when the user is not authorized to access the widget
         console.error('Widget error:', error);
         setError(JSON.stringify(error));
       });
@@ -245,7 +251,7 @@ const App = () => {
             </Tab>
           ))
         }
-        {!isWidgetInitialized && <LoadingWidget error={error} />}
+        <LoadingWidget error={error} isLoading={!isWidgetInitialized} />
       </div>
       {isYourAppVisible && (<div>Your app goes here</div>)}
       <TokenButton position='right' />
