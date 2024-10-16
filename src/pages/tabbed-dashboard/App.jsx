@@ -207,7 +207,7 @@ const App = () => {
       window.history.pushState(null, '', '#');
       return;
     }
-    
+
     if (service === Callbridge.Service.Team) {
       chatWidgetRef.current.toggle(true);
       console.log("Load the team chat widget");
@@ -251,6 +251,12 @@ const App = () => {
             </Tab>
           ))
         }
+        <button
+          type="button"
+          onClick={() => widgetRef.current.load(Callbridge.Service.Meet, { pathname: '/schedule', invitedContacts: [], invitedHosts: []})}
+          disabled={!isWidgetInitialized || [Callbridge.Service.None, Callbridge.Service.Team].includes(service)}>
+          Schedule
+        </button>
         <LoadingWidget error={error} isLoading={!isWidgetInitialized} />
       </div>
       {isYourAppVisible && (<div>Your app goes here</div>)}
