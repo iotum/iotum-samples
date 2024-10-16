@@ -43,6 +43,7 @@
 
 .widgetContainer.bordered {
   outline: 1px dotted #606060;
+  padding: 5px;
 }
 
 .badge {
