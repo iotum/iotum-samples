@@ -244,8 +244,8 @@ const App = () => {
               setService={setService}
               service={svc}
               currentService={service}
-              disabled={!(svc === Callbridge.Service.Team ? chatWidgetReady : isWidgetInitialized)}
-            >
+            disabled={!isWidgetInitialized}
+              >
               {label}
               {svc === Callbridge.Service.Team && <span className={styles.badge}>{unreadMessages}</span>}
             </Tab>
