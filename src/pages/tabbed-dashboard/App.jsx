@@ -156,6 +156,7 @@ const App = () => {
 
       chatWidgetRef.current = new Callbridge.Dashboard({
         domain,
+        sso: { token, hostId },
         container,
       }, Callbridge.Service.Team);
 
