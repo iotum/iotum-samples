@@ -6,6 +6,8 @@ import LoadingWidget from '../../components/LoadingWidget';
 import * as Callbridge from '@iotum/callbridge-js';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 import { useCredentials } from '../../components/credentials';
+import { handleStorageAccess, STORAGE_ACCESS_DENIED_MESSAGE } from '../../components/storageAccess';
+import storageAccessStyles from '../../components/StorageAccess.module.css';
 
 const App = () => {
   useGuardedRoute(); // Guard the route
@@ -14,6 +16,9 @@ const App = () => {
 
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [storageAccessHint, setStorageAccessHint] = useState('');
+  /** @type {React.MutableRefObject<HTMLDivElement>} */
+  const hiddenContainerRef = useRef(null);
   /** @type {React.MutableRefObject<Callbridge.Dashboard>} */
   const widget = useRef(null);
 
@@ -64,8 +69,9 @@ const App = () => {
 
   useEffect(() => {
     if (areCredentialsValid) {
-      // The container is not in DOM
-      const hiddenContainer = document.createElement('div');
+      // The container is hidden with CSS. It stays in the DOM because moving an iframe reloads it,
+      // and the widget must become visible when the user has to grant cookie access.
+      const hiddenContainer = hiddenContainerRef.current;
 
       const { domain, token, hostId } = credentials;
       const invisibleWidget = new Callbridge.Dashboard({
@@ -73,6 +79,16 @@ const App = () => {
         sso: { token, hostId },
         container: hiddenContainer
       }, Callbridge.Service.Team);
+
+      handleStorageAccess(invisibleWidget, {
+        onRequired: setStorageAccessHint,
+        onSettled: (denied) => {
+          setStorageAccessHint('');
+          if (denied) {
+            setError(STORAGE_ACCESS_DENIED_MESSAGE);
+          }
+        },
+      });
 
       invisibleWidget.on('dashboard.UNREAD_MESSAGES', (data) => {
         const sum = Object.values(data.rooms).reduce((m, n) => m + n, 0);
@@ -107,6 +123,10 @@ const App = () => {
             <span className={styles.badge}>{unreadMessages}</span>
           </>
         )}
+      </div>
+      <div className={storageAccessHint ? storageAccessStyles.modal : storageAccessStyles.hidden}>
+        {storageAccessHint && <div>{storageAccessHint}</div>}
+        <div ref={hiddenContainerRef} />
       </div>
     </>
   );

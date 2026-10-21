@@ -6,11 +6,14 @@ import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 import OpenFullAppButton from '../../components/OpenFullAppButton';
 import MenuButtonStyles from '../../navigation/MenuButton/MenuButton.module.css';
 import { useCredentials } from '../../components/credentials';
+import { handleStorageAccess, STORAGE_ACCESS_DENIED_MESSAGE } from '../../components/storageAccess';
+import storageAccessStyles from '../../components/StorageAccess.module.css';
 
 const App = () => {
   useGuardedRoute()
 
   const [error, setError] = useState('');
+  const [storageAccessHint, setStorageAccessHint] = useState('');
 
   const [allRooms, setAllRooms] = useState(
     /** @returns {Array} */
@@ -50,6 +53,21 @@ const App = () => {
     _widget.on('widget.ERROR', (error) => {
       console.error('Widget error:', error);
       setError(JSON.stringify(error));
+    });
+
+    // The list widget is hidden, but the user must click inside it to grant cookie access.
+    handleStorageAccess(_widget, {
+      onRequired: (hint) => {
+        _widget.toggle(true);
+        setStorageAccessHint(hint);
+      },
+      onSettled: (denied) => {
+        _widget.toggle(false);
+        setStorageAccessHint('');
+        if (denied) {
+          setError(STORAGE_ACCESS_DENIED_MESSAGE);
+        }
+      },
     });
 
     _widget.once('dashboard.ROOM_LIST', (data) => {
@@ -116,7 +134,9 @@ const App = () => {
           </div>
         </ChatRoomList>
       </div>
-      <div id="chat"><LoadingWidget id="loading" error={error} /></div>
+      <div id="chat" className={storageAccessHint ? storageAccessStyles.prompt : undefined}>
+        <LoadingWidget id="loading" error={error}>{storageAccessHint || undefined}</LoadingWidget>
+      </div>
     </div>
   );
 };
