@@ -8,6 +8,8 @@ import * as Callbridge from '@iotum/callbridge-js';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 import MenuButtonStyles from '../../navigation/MenuButton/MenuButton.module.css';
 import { useCredentials } from '../../components/credentials';
+import { handleStorageAccess, STORAGE_ACCESS_DENIED_MESSAGE } from '../../components/storageAccess';
+import storageAccessStyles from '../../components/StorageAccess.module.css';
 
 const TABS = [
   { svc: Callbridge.Service.None, label: 'Your App', },
@@ -93,6 +95,13 @@ const App = () => {
   });
   const [redo, reloadService] = useState(false);
   const [hideDashboardElements, setHideDashboardElements] = useState(undefined);
+  const [storageAccessHint, setStorageAccessHint] = useState('');
+
+  /** Lets widget event handlers restore the visibility of the current tab */
+  const serviceRef = useRef(service);
+  useEffect(() => {
+    serviceRef.current = service;
+  }, [service]);
 
   /** @type {React.MutableRefObject<HTMLDivElement>} */
   const containerRef = useRef();
@@ -105,6 +114,24 @@ const App = () => {
 
   const renderWidget = useCallback((container, { domain, token, hostId }, initService) => {
     console.log('Widget loading');
+
+    // Widgets are hidden unless their tab is active, but the user must click inside them to grant cookie access.
+    const watchStorageAccess = (widget, isTeam) => {
+      handleStorageAccess(widget, {
+        onRequired: (hint) => {
+          widget.toggle(true);
+          setStorageAccessHint(hint);
+        },
+        onSettled: (denied) => {
+          const svc = serviceRef.current;
+          widget.toggle(isTeam ? svc === Callbridge.Service.Team : ![Callbridge.Service.None, Callbridge.Service.Team].includes(svc));
+          setStorageAccessHint('');
+          if (denied) {
+            setError(STORAGE_ACCESS_DENIED_MESSAGE);
+          }
+        },
+      });
+    };
 
     const createWidget = (svc) => {
       const widget = new Callbridge.Dashboard({
@@ -140,6 +167,8 @@ const App = () => {
         setError(JSON.stringify(error));
       });
 
+      watchStorageAccess(widget, false);
+
       return widget;
     };
 
@@ -156,6 +185,7 @@ const App = () => {
       }, Callbridge.Service.Team);
 
       chatWidgetRef.current.toggle(false);
+      watchStorageAccess(chatWidgetRef.current, true);
 
       chatWidgetRef.current.on('dashboard.UNREAD_MESSAGES', (data) => {
         const totalUnread = Object.values(data.rooms).reduce((total, count) => total + count, 0);
@@ -226,7 +256,8 @@ const App = () => {
 
   const containerClassName = [
     styles.widgetContainer,
-    service !== Callbridge.Service.None && styles.bordered
+    service !== Callbridge.Service.None && styles.bordered,
+    storageAccessHint && storageAccessStyles.prompt,
   ].filter(Boolean).join(' ');
 
   return (
@@ -252,7 +283,7 @@ const App = () => {
           disabled={!isWidgetInitialized || [Callbridge.Service.None, Callbridge.Service.Team].includes(service)}>
           Schedule
         </button>
-        <LoadingWidget error={error} isLoading={!isWidgetInitialized} />
+        <LoadingWidget error={error} isLoading={!isWidgetInitialized || Boolean(storageAccessHint)}>{storageAccessHint || undefined}</LoadingWidget>
       </div>
       {service === Callbridge.Service.None && (<div>Your app goes here</div>)}
       <TokenButton position='right' />
