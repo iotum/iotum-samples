@@ -1,29 +1,29 @@
-import { render, fireEvent } from '@testing-library/react';
-import { Provider } from 'react-redux';
+import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 
-import store from './components/ReduxStore';
 import Menu from './pages/menu-page/MenuPage';
 import Token from './pages/token-page/TokenPage';
 
-const mockNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-  __esModule: true,
-  useNavigate: () => mockNavigate,
+const mockNavigate = vi.hoisted(() => vi.fn());
+vi.mock('wouter', () => ({
+  useLocation: () => ['/', mockNavigate],
 }));
+
+afterEach(cleanup);
 
 test('redirects to error page without credentials', () => {
   const { container } = render(
-    <Provider store={store}><Menu /></Provider>
+    <Menu />
   );
 
   expect(container.querySelector('.menu-container')).toBeNull();
-  expect(mockNavigate).toHaveBeenCalledWith('/iotum-samples/error-handling');
+  expect(mockNavigate).toHaveBeenCalledWith('/error-handling');
 });
 
 describe('setting credentials', () => {
   beforeEach(() => {
     const { getByRole } = render(
-      <Provider store={store}><Token /></Provider>
+      <Token />
     );
 
     fireEvent.change(
@@ -44,7 +44,7 @@ describe('setting credentials', () => {
 
   test('show menu with credentials', () => {
     const { container } = render(
-      <Provider store={store}><Menu /></Provider>
+      <Menu />
     );
     expect(container.querySelector('.menu-container')).not.toBeNull();
     expect(mockNavigate).not.toHaveBeenCalled();

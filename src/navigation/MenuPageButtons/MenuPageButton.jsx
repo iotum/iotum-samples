@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 
 const MenuPageButton = ({ text, path }) => {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
 
   return (
     <button type="button" className="menu-button" onClick={() => navigate(path)}>{text}</button>

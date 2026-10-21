@@ -1,12 +1,12 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 import styles from './MenuButton.module.css'; 
 
 function MenuButton({ position = 'left' }) { // 'left' is default if no position is provided
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   
   const handleClick = () => {
     console.log('Menu Button Clicked, Go To the Menu Page.');
-    navigate('/iotum-samples/menu');
+    navigate('/menu');
   };
 
   // Determine the button position class

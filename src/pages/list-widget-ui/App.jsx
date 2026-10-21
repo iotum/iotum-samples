@@ -1,27 +1,23 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import ChatRoomList from './ChatRoomList';
 import * as Callbridge from '@iotum/callbridge-js';
 import LoadingWidget from '../../components/LoadingWidget';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 import OpenFullAppButton from '../../components/OpenFullAppButton';
 import MenuButtonStyles from '../../navigation/MenuButton/MenuButton.module.css';
+import { useCredentials } from '../../components/credentials';
 
 const App = () => {
   useGuardedRoute()
-
-  const location = useLocation();
 
   const [error, setError] = useState('');
 
   const [allRooms, setAllRooms] = useState(
     /** @returns {Array} */
-    () => JSON.parse(decodeURI(location.hash.slice(1)) || '[]').map(path => ({ path, bool: true }))
+    () => JSON.parse(decodeURI(window.location.hash.slice(1)) || '[]').map(path => ({ path, bool: true }))
   );
 
-  // Retrieve credentials from Redux store
-  const credentials = useSelector(state => state.credentials);
+  const credentials = useCredentials();
 
   const toggleRoom = (path, open) => {
     setAllRooms(prevRooms => {

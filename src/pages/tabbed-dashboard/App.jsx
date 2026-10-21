@@ -1,14 +1,13 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import styles from './submitForm.module.css';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
 import LoadingWidget from '../../components/LoadingWidget';
 import OpenFullAppButton from '../../components/OpenFullAppButton';
 import * as Callbridge from '@iotum/callbridge-js';
-import { useSelector } from 'react-redux';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 import MenuButtonStyles from '../../navigation/MenuButton/MenuButton.module.css';
+import { useCredentials } from '../../components/credentials';
 
 const TABS = [
   { svc: Callbridge.Service.None, label: 'Your App', },
@@ -81,15 +80,12 @@ const MultiSelect = ({ hideDashboardElements, setHideDashboardElements }) => {
 const App = () => {
   useGuardedRoute(); // Guard the route
 
-  const location = useLocation();
-
   const [error, setError] = useState('');
-  const [isYourAppVisible, setIsYourAppVisible] = useState(true);
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [isWidgetInitialized, setWidgetInitialized] = useState(false);
   const [chatWidgetReady, setChatWidgetReady] = useState(false);
   const [service, setService] = useState(() => {
-    const s = location.hash.slice(1);
+    const s = window.location.hash.slice(1);
     if (s in Callbridge.Service) {
       return Callbridge.Service[s];
     }
@@ -105,7 +101,7 @@ const App = () => {
   /** @type {React.MutableRefObject<Callbridge.Dashboard>} */
   const widgetRef = useRef();
 
-  const credentials = useSelector(state => state.credentials);
+  const credentials = useCredentials();
 
   const renderWidget = useCallback((container, { domain, token, hostId }, initService) => {
     console.log('Widget loading');
@@ -201,7 +197,6 @@ const App = () => {
     widgetRef.current?.toggle(false);
     chatWidgetRef.current?.toggle(false);
 
-    setIsYourAppVisible(service === Callbridge.Service.None);
     if (service === Callbridge.Service.None) {
       console.log("Load your app");
       window.history.pushState(null, '', '#');
@@ -259,13 +254,13 @@ const App = () => {
         </button>
         <LoadingWidget error={error} isLoading={!isWidgetInitialized} />
       </div>
-      {isYourAppVisible && (<div>Your app goes here</div>)}
+      {service === Callbridge.Service.None && (<div>Your app goes here</div>)}
       <TokenButton position='right' />
       <MenuButton position="right" />
       <div className={MenuButtonStyles.extraMenu}>
         {service === Callbridge.Service.Meet && <HiddenAllElementsButton hideDashboardElements={hideDashboardElements} setHideDashboardElements={setHideDashboardElements} />}
         {service === Callbridge.Service.Meet && <MultiSelect hideDashboardElements={hideDashboardElements} setHideDashboardElements={setHideDashboardElements} />}
-        {widgetRef.current && <OpenFullAppButton {...credentials} />}
+        {isWidgetInitialized && <OpenFullAppButton {...credentials} />}
       </div>
       <div ref={containerRef} className={containerClassName}></div>
     </div>

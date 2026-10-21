@@ -2,31 +2,60 @@ name: Build and Deploy to GitHub Pages
 on:
   push:
     branches: main
+  pull_request:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
-    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 18.x
+          node-version-file: .nvmrc
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
 
       - name: Build
         run: npm run build
 
+      - name: Upload build
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist
+
+  deploy:
+    needs: build
+    if: github.event_name == 'push'
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Download build
+        uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist
+
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: dist

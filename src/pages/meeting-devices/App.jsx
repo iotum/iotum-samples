@@ -3,8 +3,8 @@ import styles from './submitForm.module.css';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
 import * as Callbridge from '@iotum/callbridge-js';
-import { useSelector } from 'react-redux';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
+import { useCredentials } from '../../components/credentials';
 
 const renderWidget = ({ domain, token, hostId, accessCode, muteMic, muteCam }) => {
   const _widget = new Callbridge.Meeting(
@@ -73,7 +73,7 @@ const App = () => {
   /** @type {React.MutableRefObject<Callbridge.Meeting>} */
   const widget = useRef();
 
-  const credentials = useSelector(state => state.credentials);
+  const credentials = useCredentials();
 
   /** @type {React.ChangeEventHandler<HTMLSelectElement>} */
   const onDeviceChange = ({ target: select }) => {
