@@ -1,10 +1,8 @@
 import React, { Suspense, lazy } from 'react';
 import ReactDOM from "react-dom/client";
-import { Provider } from 'react-redux';
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import LoadingWidget from './components/LoadingWidget';
-import store from './components/ReduxStore';
 import Login from "./pages/token-page/TokenPage"
 import Menu from "./pages/menu-page/MenuPage";
 import ErrorHandling from './pages/ErrorHandlingPage/ErrorHandling';
@@ -62,10 +60,8 @@ const createRouter = () => {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <Suspense fallback={<LoadingWidget />}>
-        <RouterProvider router={createRouter()}/>
-      </Suspense>
-    </Provider>
+    <Suspense fallback={<LoadingWidget />}>
+      <RouterProvider router={createRouter()}/>
+    </Suspense>
   </React.StrictMode>
 );

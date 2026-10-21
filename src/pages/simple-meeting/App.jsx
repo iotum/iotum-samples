@@ -3,15 +3,15 @@ import styles from './submitForm.module.css';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
 import * as Callbridge from '@iotum/callbridge-js';
-import { useSelector } from 'react-redux';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
+import { useCredentials } from '../../components/credentials';
 
 const App = () => {
   useGuardedRoute();
   const container = useRef(null);
   const widget = useRef(null);
 
-  const credentials = useSelector(state => state.credentials);
+  const credentials = useCredentials();
 
   /** @type {React.FormEventHandler<HTMLFormElement>} */
   const onSubmit = (event) => {

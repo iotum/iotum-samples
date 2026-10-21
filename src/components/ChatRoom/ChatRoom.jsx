@@ -1,14 +1,14 @@
 import { useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import * as Callbridge from '@iotum/callbridge-js';
 import styles from './chat.module.css';
+import { useCredentials } from '../credentials';
 
 const ChatRoom = (props) => {
   const chatContainerRef = useRef(null);
-  const credentials = useSelector(state => state.credentials)
+  const credentials = useCredentials();
 
   useEffect(() => {
-    // Use the domain from the Redux store, or a default value if not available
+    // Use the stored domain, or a default value if not available
     const domain = credentials.domain || 'iotum.callbridge.rocks'
 
     // This code will run after the component has rendered and the chat container is available in the DOM

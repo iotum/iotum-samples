@@ -6,9 +6,9 @@ import MenuButton from '../../navigation/MenuButton/MenuButton';
 import LoadingWidget from '../../components/LoadingWidget';
 import OpenFullAppButton from '../../components/OpenFullAppButton';
 import * as Callbridge from '@iotum/callbridge-js';
-import { useSelector } from 'react-redux';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
 import MenuButtonStyles from '../../navigation/MenuButton/MenuButton.module.css';
+import { useCredentials } from '../../components/credentials';
 
 const TABS = [
   { svc: Callbridge.Service.None, label: 'Your App', },
@@ -104,7 +104,7 @@ const App = () => {
   /** @type {React.MutableRefObject<Callbridge.Dashboard>} */
   const widgetRef = useRef();
 
-  const credentials = useSelector(state => state.credentials);
+  const credentials = useCredentials();
 
   const renderWidget = useCallback((container, { domain, token, hostId }, initService) => {
     console.log('Widget loading');

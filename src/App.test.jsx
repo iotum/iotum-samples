@@ -1,8 +1,6 @@
 import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, fireEvent, cleanup } from '@testing-library/react';
-import { Provider } from 'react-redux';
 
-import store from './components/ReduxStore';
 import Menu from './pages/menu-page/MenuPage';
 import Token from './pages/token-page/TokenPage';
 
@@ -16,7 +14,7 @@ afterEach(cleanup);
 
 test('redirects to error page without credentials', () => {
   const { container } = render(
-    <Provider store={store}><Menu /></Provider>
+    <Menu />
   );
 
   expect(container.querySelector('.menu-container')).toBeNull();
@@ -26,7 +24,7 @@ test('redirects to error page without credentials', () => {
 describe('setting credentials', () => {
   beforeEach(() => {
     const { getByRole } = render(
-      <Provider store={store}><Token /></Provider>
+      <Token />
     );
 
     fireEvent.change(
@@ -47,7 +45,7 @@ describe('setting credentials', () => {
 
   test('show menu with credentials', () => {
     const { container } = render(
-      <Provider store={store}><Menu /></Provider>
+      <Menu />
     );
     expect(container.querySelector('.menu-container')).not.toBeNull();
     expect(mockNavigate).not.toHaveBeenCalled();

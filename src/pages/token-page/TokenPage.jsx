@@ -1,30 +1,26 @@
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { setCredentials } from '../../components/ReduxStore';
+import { setCredentials, clearCredentials } from '../../components/credentials';
 import CredentialsForm from "../../components/CredentialsForm";
 import { useNavigate } from 'react-router';
 import './TokenPage.css'
 
 export const TokenPage = () => {
   const [credentialsSubmitted, setCredentialsSubmitted] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   //Clear the credentials when navigating to the TokenPage. 
   useEffect(() => {
-      // Dispatch an action to reset the credentials in the Redux store
-      dispatch(setCredentials({ token: null, url: null, hostId: null }));
-  }, [dispatch]);
+      clearCredentials();
+  }, []);
 
   const handleCredentialsSubmit = (credentials) => {
       console.log('Credentials submitted');
       
-      // Store the credentials in the Redux state
-      dispatch(setCredentials({
+      setCredentials({
           token: credentials.token,
           domain: credentials.domain,
           hostId: credentials.hostId
-      }));
+      });
       
       // Indicate that the credentials have been submitted
       setCredentialsSubmitted(true);

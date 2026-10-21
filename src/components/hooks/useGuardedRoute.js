@@ -1,11 +1,11 @@
 // useGuardedRoute.js
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { useCredentials } from '../credentials';
 
 const useGuardedRoute = () => {
   const navigate = useNavigate();
-  const { token } = useSelector(state => state.credentials);
+  const { token } = useCredentials();
   const isAuthenticated = Boolean(token);
 
   useEffect(() => {

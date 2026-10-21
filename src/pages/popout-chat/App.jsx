@@ -4,8 +4,8 @@ import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
 import LoadingWidget from '../../components/LoadingWidget';
 import * as Callbridge from '@iotum/callbridge-js';
-import { useSelector } from 'react-redux';
 import useGuardedRoute from '../../components/hooks/useGuardedRoute';
+import { useCredentials } from '../../components/credentials';
 
 const App = () => {
   useGuardedRoute(); // Guard the route
@@ -17,7 +17,7 @@ const App = () => {
   /** @type {React.MutableRefObject<Callbridge.Dashboard>} */
   const widget = useRef(null);
 
-  const credentials = useSelector(state => state.credentials);
+  const credentials = useCredentials();
 
   // Check if all necessary credentials are available
   const areCredentialsValid = credentials.token && credentials.domain && credentials.hostId;

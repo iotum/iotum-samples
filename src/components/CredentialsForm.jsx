@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useCredentials } from './credentials';
 import './CredentialsForm.css'
 
 const CredentialsForm = ({ onSubmit }) => {
-  const { domain, token, hostId } = useSelector(state => state.credentials);
+  const { domain, token, hostId } = useCredentials();
 
   // This function will be called when the form is submitted
   /** @type {React.FormEventHandler<HTMLFormElement>} */
