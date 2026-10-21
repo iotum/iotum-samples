@@ -84,7 +84,6 @@ const App = () => {
   const location = useLocation();
 
   const [error, setError] = useState('');
-  const [isYourAppVisible, setIsYourAppVisible] = useState(true);
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [isWidgetInitialized, setWidgetInitialized] = useState(false);
   const [chatWidgetReady, setChatWidgetReady] = useState(false);
@@ -201,7 +200,6 @@ const App = () => {
     widgetRef.current?.toggle(false);
     chatWidgetRef.current?.toggle(false);
 
-    setIsYourAppVisible(service === Callbridge.Service.None);
     if (service === Callbridge.Service.None) {
       console.log("Load your app");
       window.history.pushState(null, '', '#');
@@ -259,13 +257,13 @@ const App = () => {
         </button>
         <LoadingWidget error={error} isLoading={!isWidgetInitialized} />
       </div>
-      {isYourAppVisible && (<div>Your app goes here</div>)}
+      {service === Callbridge.Service.None && (<div>Your app goes here</div>)}
       <TokenButton position='right' />
       <MenuButton position="right" />
       <div className={MenuButtonStyles.extraMenu}>
         {service === Callbridge.Service.Meet && <HiddenAllElementsButton hideDashboardElements={hideDashboardElements} setHideDashboardElements={setHideDashboardElements} />}
         {service === Callbridge.Service.Meet && <MultiSelect hideDashboardElements={hideDashboardElements} setHideDashboardElements={setHideDashboardElements} />}
-        {widgetRef.current && <OpenFullAppButton {...credentials} />}
+        {isWidgetInitialized && <OpenFullAppButton {...credentials} />}
       </div>
       <div ref={containerRef} className={containerClassName}></div>
     </div>
