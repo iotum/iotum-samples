@@ -1,4 +1,4 @@
-import { createStore } from 'redux';
+import { legacy_createStore as createStore } from 'redux';
 
 const SET_CREDENTIALS = 'SET_CREDENTIALS';
 

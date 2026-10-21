@@ -1,7 +1,8 @@
 import React, { Suspense, lazy } from 'react';
 import ReactDOM from "react-dom/client";
 import { Provider } from 'react-redux';
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import LoadingWidget from './components/LoadingWidget';
 import store from './components/ReduxStore';
 import Login from "./pages/token-page/TokenPage"

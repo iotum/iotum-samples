@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import styles from './TokenButton.module.css'; 
 
 function TokenButton({ position = 'left' }) { // 'left' is default if no position is provided

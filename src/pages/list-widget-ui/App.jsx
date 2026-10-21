@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import ChatRoomList from './ChatRoomList';
 import * as Callbridge from '@iotum/callbridge-js';
 import LoadingWidget from '../../components/LoadingWidget';

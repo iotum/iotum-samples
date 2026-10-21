@@ -1,15 +1,18 @@
-import { render, fireEvent } from '@testing-library/react';
+import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 import store from './components/ReduxStore';
 import Menu from './pages/menu-page/MenuPage';
 import Token from './pages/token-page/TokenPage';
 
-const mockNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
+const mockNavigate = vi.hoisted(() => vi.fn());
+vi.mock('react-router', () => ({
   __esModule: true,
   useNavigate: () => mockNavigate,
 }));
+
+afterEach(cleanup);
 
 test('redirects to error page without credentials', () => {
   const { container } = render(
