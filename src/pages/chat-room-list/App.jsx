@@ -42,9 +42,13 @@ const App = () => {
       }
     );
 
+    /** Room paths from ROOM_LIST: only these navigations open a room and reset the list widget */
+    const roomPaths = new Set();
+
     _widget.once('dashboard.ROOM_LIST', (data) => {
       const uniqueAccountNames = []; // To keep track of account names that should have "(you)" added
       const allRoomsChange = Object.values(data.rooms).map((room) => {
+        roomPaths.add(room.path);
         const accounts = room.accounts.map((account) => account.name);
 
         // Check if the room has only one account
@@ -71,10 +75,14 @@ const App = () => {
     });
 
     _widget.on('dashboard.NAVIGATE', (data) => {
-      if (data.pathname !== "/") {
-        _widget.load(Callbridge.Service.Team, { layout: Callbridge.LayoutOption.list })
-        console.log("There was a navigate event to " + data.pathname + " in the list widget and the list widget was reloaded");
+      // Reloading on any other path (e.g. a redirect to /login) loops until Safari throws a SecurityError.
+      if (!roomPaths.has(data.pathname)) {
+        console.log("Ignored a navigate event to " + data.pathname + " in the list widget");
+        return;
       }
+
+      _widget.load(Callbridge.Service.Team, { layout: Callbridge.LayoutOption.list });
+      console.log("There was a navigate event to " + data.pathname + " in the list widget and the list widget was reloaded");
 
       handleRoomButtonClick(data.pathname);
     });
