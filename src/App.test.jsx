@@ -5,9 +5,8 @@ import Menu from './pages/menu-page/MenuPage';
 import Token from './pages/token-page/TokenPage';
 
 const mockNavigate = vi.hoisted(() => vi.fn());
-vi.mock('react-router', () => ({
-  __esModule: true,
-  useNavigate: () => mockNavigate,
+vi.mock('wouter', () => ({
+  useLocation: () => ['/', mockNavigate],
 }));
 
 afterEach(cleanup);
@@ -18,7 +17,7 @@ test('redirects to error page without credentials', () => {
   );
 
   expect(container.querySelector('.menu-container')).toBeNull();
-  expect(mockNavigate).toHaveBeenCalledWith('/iotum-samples/error-handling');
+  expect(mockNavigate).toHaveBeenCalledWith('/error-handling');
 });
 
 describe('setting credentials', () => {

@@ -1,16 +1,16 @@
 // useGuardedRoute.js
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation } from 'wouter';
 import { useCredentials } from '../credentials';
 
 const useGuardedRoute = () => {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const { token } = useCredentials();
   const isAuthenticated = Boolean(token);
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/iotum-samples/error-handling');
+      navigate('/error-handling');
       console.log('New credentials input needed');
     }
   }, [isAuthenticated, navigate]);

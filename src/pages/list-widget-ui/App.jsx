@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router';
 import ChatRoomList from './ChatRoomList';
 import * as Callbridge from '@iotum/callbridge-js';
 import LoadingWidget from '../../components/LoadingWidget';
@@ -11,13 +10,11 @@ import { useCredentials } from '../../components/credentials';
 const App = () => {
   useGuardedRoute()
 
-  const location = useLocation();
-
   const [error, setError] = useState('');
 
   const [allRooms, setAllRooms] = useState(
     /** @returns {Array} */
-    () => JSON.parse(decodeURI(location.hash.slice(1)) || '[]').map(path => ({ path, bool: true }))
+    () => JSON.parse(decodeURI(window.location.hash.slice(1)) || '[]').map(path => ({ path, bool: true }))
   );
 
   const credentials = useCredentials();

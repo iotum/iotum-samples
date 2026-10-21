@@ -1,12 +1,12 @@
-import { useNavigate } from 'react-router';
+import { useLocation } from 'wouter';
 import styles from './TokenButton.module.css'; 
 
 function TokenButton({ position = 'left' }) { // 'left' is default if no position is provided
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   
   const handleClick = () => {
     console.log('Token Button Clicked, Go To the Token Page.');
-    navigate('/iotum-samples');
+    navigate('/');
   };
 
   // Determine the button position class

@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { setCredentials, clearCredentials } from '../../components/credentials';
 import CredentialsForm from "../../components/CredentialsForm";
-import { useNavigate } from 'react-router';
+import { useLocation } from 'wouter';
 import './TokenPage.css'
 
 export const TokenPage = () => {
   const [credentialsSubmitted, setCredentialsSubmitted] = useState(false);
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
 
   //Clear the credentials when navigating to the TokenPage. 
   useEffect(() => {
@@ -25,7 +25,7 @@ export const TokenPage = () => {
       // Indicate that the credentials have been submitted
       setCredentialsSubmitted(true);
 
-      navigate('/iotum-samples/menu'); 
+      navigate('/menu'); 
   };
 
   // Render the form or the result based on the credentials submission state

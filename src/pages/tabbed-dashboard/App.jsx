@@ -1,5 +1,4 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { useLocation } from 'react-router';
 import styles from './submitForm.module.css';
 import TokenButton from '../../navigation/TokenButton/TokenButton';
 import MenuButton from '../../navigation/MenuButton/MenuButton';
@@ -81,14 +80,12 @@ const MultiSelect = ({ hideDashboardElements, setHideDashboardElements }) => {
 const App = () => {
   useGuardedRoute(); // Guard the route
 
-  const location = useLocation();
-
   const [error, setError] = useState('');
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [isWidgetInitialized, setWidgetInitialized] = useState(false);
   const [chatWidgetReady, setChatWidgetReady] = useState(false);
   const [service, setService] = useState(() => {
-    const s = location.hash.slice(1);
+    const s = window.location.hash.slice(1);
     if (s in Callbridge.Service) {
       return Callbridge.Service[s];
     }
