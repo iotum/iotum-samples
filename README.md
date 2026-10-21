@@ -59,7 +59,7 @@ Access the app here: [iotum Sample Apps](https://iotum.github.io/iotum-samples/)
    - The domain must be whitelisted to be allowed the widget domain.
    - HTTPS is required for widget to work.
 
-2. Install [Node.js](https://nodejs.org/en).
+2. Install [Node.js](https://nodejs.org/en) 22.22 or later (see [.nvmrc](.nvmrc)).
 
 3. On Windows, install [Git](https://git-scm.com/downloads).
 4. Clone the repository: `git clone https://github.com/iotum/iotum-samples.git`.
