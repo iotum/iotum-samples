@@ -11,6 +11,7 @@ const SimpleMeetingApp = lazy(() => import('./pages/simple-meeting/App'));
 const PopoutChatApp = lazy(() => import('./pages/popout-chat/App'));
 const TabbedDashboardApp = lazy(() => import('./pages/tabbed-dashboard/App'));
 const MeetingDevicesApp = lazy(() => import('./pages/meeting-devices/App'));
+const CallsApp = lazy(() => import('./pages/calls/App'));
 
 const AppRoutes = () => (
   <Switch>
@@ -22,6 +23,7 @@ const AppRoutes = () => (
     <Route path="/meeting-devices"><MeetingDevicesApp /></Route>
     <Route path="/popout-chat"><PopoutChatApp /></Route>
     <Route path="/tabbed-dashboard"><TabbedDashboardApp /></Route>
+    <Route path="/calls"><CallsApp /></Route>
     <Route path="/error-handling"><ErrorHandling /></Route>
     <Route><Redirect to="/menu" replace /></Route>
   </Switch>

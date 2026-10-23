@@ -51,6 +51,12 @@ const Menu = () => {
             This sample shows how to manage media devices in meeting widget from the host page.
           </p>
         </li>
+        <li>
+          <MenuPageButton text="Calls" path="/calls" />
+          <p>
+            This sample embeds the ‘Calls’ dashboard (recent calls, voicemails, contacts and call queues) in your application using the Dashboard widget with ‘Service.Calls’.
+          </p>
+        </li>
       </menu>
       <TokenButton position="right" />
     </div>

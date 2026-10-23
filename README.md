@@ -33,6 +33,10 @@ Access the app here: [iotum Sample Apps](https://iotum.github.io/iotum-samples/)
 
    This sample shows how to manage media devices in meeting widget from the host page.
 
+- **Calls**: [View Sample](https://github.com/iotum/iotum-samples/tree/main/src/pages/calls)
+
+   This sample embeds the 'Calls' dashboard (recent calls, voicemails, contacts and call queues) using `new Dashboard(options)` and `dashboard.load(Service.Calls)`. Requires a Callbridge server that supports the `Calls` service.
+
 
 ## Getting Started with the Application
 
